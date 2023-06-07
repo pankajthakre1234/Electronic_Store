@@ -1,6 +1,7 @@
 package com.lcwd.electronic.store.dto;
 
 import com.lcwd.electronic.store.entity.CustomField;
+import com.lcwd.electronic.store.validate.ImageNameValid;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -26,19 +27,22 @@ public class UserDto extends CustomFieldDto{
     @Size(min = 5, max = 15)
     private String name;
 
-    @NotEmpty(message = "Invalid User Email Id")
+    @NotEmpty(message = "User Email ID Is Required")
+    @Pattern(regexp = "^[a-z0-9][-a-z0-9._]+@([-a-z0-9]+\\.)+[a-z]{2,5}$",message = "Invalid User Email")
     @Size(min = 12,max = 25)
     private String email;
 
     @NotEmpty(message = "Password Should be proper and valid")
-    @Size(min = 5,max = 16)
+    @Size(min = 5,max = 8)
     private String password;
 
     @NotEmpty(message = "The Gender must be proper and Valid")
+    @Size(min = 4,max = 6)
     private String gender;
 
     @NotEmpty(message = "Write About Your Self")
     private String about;
 
+    @ImageNameValid
     private String imageName;
 }
