@@ -28,4 +28,7 @@ public interface UserServiceI {
 
    // search user
     List<UserDto> searchUser(String keyword);
+
+    // get All users by pagination
+    List<UserDto> getAllUsersBySorting(Integer pageNumber,Integer pageSize,String sortBy,String sortDi);
 }

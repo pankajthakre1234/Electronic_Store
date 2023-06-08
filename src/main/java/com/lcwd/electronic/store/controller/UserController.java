@@ -24,6 +24,7 @@ public class UserController {
 
     Logger logger= LoggerFactory.getLogger(UserController.class);
 
+//     create User
     /**
      * @Author Pankaj
      * @apiNote This Api is Use For The Create Users Details
@@ -39,6 +40,7 @@ public class UserController {
         return new ResponseEntity<>(userDto1, HttpStatus.CREATED);
     }
 
+//    update user detail
     /**
      * @apiNote This Api Is Use For The Update User Details
      * @param userDto
@@ -54,6 +56,7 @@ public class UserController {
         return new ResponseEntity<>(userDto1, HttpStatus.OK);
     }
 
+//    get Single Users details
     /**
      * @apiNote This Api Is Use For The Get Single User By Id
      * @param userId
@@ -68,6 +71,7 @@ public class UserController {
         return new ResponseEntity<>(userById, HttpStatus.OK);
     }
 
+//    get All users Details
     /**
      * @apiNote This Api Is Use For The Get All Users Details
      * @return
@@ -81,6 +85,7 @@ public class UserController {
         return new ResponseEntity<>(allUsers,HttpStatus.OK);
     }
 
+//    delete user Details
     /**
      * @apiNote This Api Is Use For The Delete The User
      * @param userId
@@ -95,6 +100,7 @@ public class UserController {
         return new ResponseEntity(new ApiResponse(AppConstant.USER_DELETE,false),HttpStatus.OK);
     }
 
+//    get User By email
     /**
      * @apiNote This Api Is Use For The Get User By Email
      * @param email
@@ -109,6 +115,7 @@ public class UserController {
         return new ResponseEntity<>(userByEmail,HttpStatus.OK);
     }
 
+//    get user searching
     /**
      * @apiNote This Api Is Use For The Search User By Keyword
      * @param keyword
@@ -121,5 +128,27 @@ public class UserController {
         List<UserDto> userDto = this.userServiceI.searchUser(keyword);
         logger.info("Completed the request for the Search User By Keyword");
         return new ResponseEntity<>(userDto,HttpStatus.OK);
+    }
+
+//    get all Users by Pagination and Sorting
+
+    /**
+     * @apiNote This Api is Use for The get All Users By Sorting and Pagination
+     * @param pageNumber
+     * @param pageSize
+     * @param sortBy
+     * @param sortDir
+     * @return
+     */
+    public ResponseEntity<List<UserDto>> getAllUsersBySorting(
+            @RequestParam(value = "pageNumber", defaultValue = AppConstant.PAGE_NUMBER, required = false) Integer pageNumber,
+            @RequestParam(value = "pageSize", defaultValue = AppConstant.PAGE_SIZE, required = false) Integer pageSize,
+            @RequestParam(value = "sortBy", defaultValue = AppConstant.SORT_BY, required = false) String sortBy,
+            @RequestParam(value = "dirBY", defaultValue = AppConstant.SORT_DIR, required = false) String sortDir)
+    {
+        logger.info("Initiate the request for Get the All User Details by Sorting and Pagging");
+        List<UserDto> users = this.userServiceI.getAllUsersBySorting(pageNumber, pageSize, sortBy, sortDir);
+        logger.info("Completed the request for Get the All User Details by Sorting and Pagging");
+        return new ResponseEntity<List<UserDto>>(users,HttpStatus.OK);
     }
 }

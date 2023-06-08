@@ -10,6 +10,10 @@ import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -122,10 +126,10 @@ public class UserServiceImpl implements UserServiceI {
     @Override
     public List<UserDto> getAllUsers()
     {
-        logger.info("Initiating dao call for get All the User details");
-        List<User> alluser = this.userRepository.findAll();
 
-        List<UserDto> UsersList = alluser.stream().map((users) -> this.mapper.map(users, UserDto.class)).collect(Collectors.toList());
+        logger.info("Initiating dao call for get All the User details");
+        List<User> allusers = this.userRepository.findAll();
+        List<UserDto> UsersList = allusers.stream().map((users) -> this.mapper.map(users, UserDto.class)).collect(Collectors.toList());
         logger.info("Completed dao call for get All the User details");
         return UsersList;
     }
@@ -136,13 +140,26 @@ public class UserServiceImpl implements UserServiceI {
      * @return
      */
     @Override
-    public List<UserDto> searchUser(String keyword)
-    {
+    public List<UserDto> searchUser(String keyword) {
         logger.info("Initiating dao call for Search User details");
         List<User> users = this.userRepository.findByNameContaining(keyword);
         List<UserDto> userDtos = users.stream().map((user) -> this.mapper.map(user, UserDto.class)).collect(Collectors.toList());
         logger.info("Initiating dao call for Search User details");
-        return  userDtos;
+        return userDtos;
     }
 
+    @Override
+    public List<UserDto> getAllUsersBySorting(Integer pageNumber, Integer pageSize, String sortBy, String sortDi)
+    {
+         logger.info("Initiating dao call for get All the User details By Sorting Page and Order");
+        Sort sort=(sortDi.equalsIgnoreCase("dsc"))?(Sort.by(sortBy).descending()):(Sort.by(sortBy).ascending());
+
+        PageRequest pageable = PageRequest.of(pageNumber, pageSize, sort);
+        Page<User> page = this.userRepository.findAll(pageable);
+        List<User> allusers = page.getContent();
+
+        List<UserDto> alllist = allusers.stream().map((user) -> this.mapper.map(user, UserDto.class)).collect(Collectors.toList());
+        logger.info("Completed dao call for get All the User details By Sorting Page and Order");
+        return alllist;
+    }
 }
