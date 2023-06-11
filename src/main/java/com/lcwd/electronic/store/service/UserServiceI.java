@@ -1,10 +1,9 @@
-package com.lcwd.electronic.store.servicei;
+package com.lcwd.electronic.store.service;
 
 import com.lcwd.electronic.store.dto.UserDto;
-import com.lcwd.electronic.store.entity.User;
+import com.lcwd.electronic.store.helper.PageableResponse;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface UserServiceI {
 
@@ -30,5 +29,5 @@ public interface UserServiceI {
     List<UserDto> searchUser(String keyword);
 
     // get All users by pagination
-    List<UserDto> getAllUsersBySorting(Integer pageNumber,Integer pageSize,String sortBy,String sortDi);
+     PageableResponse<UserDto> getAllUsersBySorting(Integer pageNumber, Integer pageSize, String sortBy, String sortDi);
 }

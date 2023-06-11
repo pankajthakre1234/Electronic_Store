@@ -15,4 +15,6 @@ public class AppConstant {
     public static final String SORT_BY = "Containing";
 
     public static final String SORT_DIR ="Ascending or Descending";
+
+    public static final String IMAGE_UPLOADED="This Image uploaded Successfully";
 }

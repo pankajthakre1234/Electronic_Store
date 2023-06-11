@@ -15,29 +15,36 @@ import java.util.Map;
 public class GlobalLevelException {
 
     @ExceptionHandler(ResourceNotFoundException.class)
-    public ResponseEntity<ApiResponse> resourceNotFoundExceptionHandel(ResourceNotFoundException ex)
-    {
+    public ResponseEntity<ApiResponse> resourceNotFoundExceptionHandel(ResourceNotFoundException ex) {
         String message = ex.getMessage();
 
-        ApiResponse apiResponse=new ApiResponse(message, false);
+        ApiResponse apiResponse = new ApiResponse(message, false);
 
         return new ResponseEntity<ApiResponse>(apiResponse, HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<Map<String, String>> methodArgumentNotValidExceptionHandle(MethodArgumentNotValidException ex)
-    {
-        Map<String, String> map=new HashMap<>();
+    public ResponseEntity<Map<String, String>> methodArgumentNotValidExceptionHandle(MethodArgumentNotValidException ex) {
+        Map<String, String> map = new HashMap<>();
 
-        ex.getBindingResult().getAllErrors().forEach((error)->{
+        ex.getBindingResult().getAllErrors().forEach((error) -> {
 
-            String fieldName = ((FieldError)error).getField();
+            String fieldName = ((FieldError) error).getField();
 
             String defaultMessage = error.getDefaultMessage();
 
             map.put(fieldName, defaultMessage);
         });
 
-        return new ResponseEntity<Map<String,String>>(map,HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<Map<String, String>>(map, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(BadApiRequest.class)
+    public ResponseEntity<BadApiRequest> BadApiRequestHAndler(BadApiRequest ex) {
+        String message = ex.getMessage();
+
+        BadApiRequest apiResponse = new BadApiRequest(message,false);
+
+        return new ResponseEntity<BadApiRequest>(apiResponse, HttpStatus.BAD_REQUEST);
     }
 }

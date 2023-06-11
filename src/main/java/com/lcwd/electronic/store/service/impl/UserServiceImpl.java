@@ -1,23 +1,22 @@
-package com.lcwd.electronic.store.servicei.serviceimpl;
+package com.lcwd.electronic.store.service.impl;
 
 import com.lcwd.electronic.store.dto.UserDto;
 import com.lcwd.electronic.store.entity.User;
 import com.lcwd.electronic.store.exception.ResourceNotFoundException;
-import com.lcwd.electronic.store.helper.AppConstant;
+import com.lcwd.electronic.store.helper.PageableResponse;
 import com.lcwd.electronic.store.repository.UserRepository;
-import com.lcwd.electronic.store.servicei.UserServiceI;
+import com.lcwd.electronic.store.service.UserServiceI;
+import com.lcwd.electronic.store.utility.HelperPageable;
 import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -148,8 +147,16 @@ public class UserServiceImpl implements UserServiceI {
         return userDtos;
     }
 
+    /**
+     * @implNote This process is use Implementing for the getAll Users By Sorting and Pagination
+     * @param pageNumber
+     * @param pageSize
+     * @param sortBy
+     * @param sortDi
+     * @return
+     */
     @Override
-    public List<UserDto> getAllUsersBySorting(Integer pageNumber, Integer pageSize, String sortBy, String sortDi)
+    public PageableResponse<UserDto> getAllUsersBySorting(Integer pageNumber, Integer pageSize, String sortBy, String sortDi)
     {
          logger.info("Initiating dao call for get All the User details By Sorting Page and Order");
         Sort sort=(sortDi.equalsIgnoreCase("dsc"))?(Sort.by(sortBy).descending()):(Sort.by(sortBy).ascending());
@@ -158,8 +165,8 @@ public class UserServiceImpl implements UserServiceI {
         Page<User> page = this.userRepository.findAll(pageable);
         List<User> allusers = page.getContent();
 
-        List<UserDto> alllist = allusers.stream().map((user) -> this.mapper.map(user, UserDto.class)).collect(Collectors.toList());
+        PageableResponse<UserDto> response = HelperPageable.getPageableResponse(page, UserDto.class);
         logger.info("Completed dao call for get All the User details By Sorting Page and Order");
-        return alllist;
+        return response;
     }
 }
