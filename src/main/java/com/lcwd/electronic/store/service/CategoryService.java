@@ -23,6 +23,6 @@ public interface CategoryService {
     CategoryDto getSingleCategory(Integer catId);
 
     //  get all by Pageable
-    PageableResponse<CategoryDto> getAllCategories(int pageNumber, int pageSize, String sortBy, String sortDir);
+    PageableResponse<CategoryDto> getAllCategorys(int pageNumber, int pageSize, String sortBy, String sortDir);
 
 }

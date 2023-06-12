@@ -24,61 +24,102 @@ public class CategoryController {
     Logger logger= LoggerFactory.getLogger(CategoryController.class);
 
 //    create
+    /**
+     * @apiNote This Api Is use For The save The Category Details
+     * @param categoryDto
+     * @return
+     */
     @PostMapping("/category")
     public ResponseEntity<CategoryDto> createCategory(@RequestBody CategoryDto categoryDto)
     {
+        logger.info("Initiate the request for Save the Categories Details");
         CategoryDto category = this.service.createCategory(categoryDto);
+        logger.info("Completed the request for Save the Categories Details");
 
         return new ResponseEntity<>(category, HttpStatus.CREATED);
     }
 
 //    update
-    @PutMapping("/{catId}")
+    /**
+     * @apiNote This Api Is use For The Update The Category Details
+     * @param categoryDto
+     * @param catId
+     * @return
+     */
+    @PutMapping("/cat/{catId}")
     public ResponseEntity<CategoryDto> updateCategory(@RequestBody CategoryDto categoryDto, @PathVariable Integer catId)
     {
+        logger.info("Initiate the request for Update the Categories Details");
         CategoryDto categoryDto1 = this.service.updateCategory(categoryDto, catId);
+        logger.info("Completed the request for Update the Categories Details");
 
         return new ResponseEntity<>(categoryDto1,HttpStatus.OK);
     }
 
 //    get All
+    /**
+     * @apiNote This Api Is use For The Get All The Category Details
+     * @return
+     */
     @GetMapping("/categorys")
     public ResponseEntity<List<CategoryDto>> getAllCategory()
     {
+        logger.info("Initiate the request for get All the Categories Details");
         List<CategoryDto> allCategorys = this.service.getAllCategorys();
-
+        logger.info("Completed the request for get All the Categories Details");
         return new ResponseEntity<>(allCategorys,HttpStatus.OK);
     }
 
 //    get single
-    @GetMapping("/{catId}")
+    /**
+     * @apiNote This Api Is use For The Get Single Category Details
+     * @param catId
+     * @return
+     */
+    @GetMapping("/cat/{catId}")
     public ResponseEntity<CategoryDto> getSingleCategory(@PathVariable Integer catId)
     {
+        logger.info("Initiate the request for get the Single Categories Details");
         CategoryDto singleCategory = this.service.getSingleCategory(catId);
-
+        logger.info("Completed the request for get the Single Categories Details");
         return new ResponseEntity<>(singleCategory,HttpStatus.OK);
     }
 
 //    delete
+    /**
+     * @apiNote This Api Is use For The Delete the Category Details
+     * @param catId
+     * @return
+     */
     @DeleteMapping("/delete/{catId}")
     public ResponseEntity<CategoryDto> deleteCategory(@PathVariable Integer catId)
     {
+        logger.info("Initiate the request for Delete the Categories Details");
         this.service.deleteCategory(catId);
-
+        logger.info("Completed the request for Delete the Categories Details");
         return new ResponseEntity(new ApiResponse(AppConstant.USER_DELETE,false), HttpStatus.OK);
     }
 
 //    get pagination
-    @GetMapping("/categories")
-    public ResponseEntity<PageableResponse<CategoryDto>> getAllCategories(
-            @RequestParam(value = "pageNumber", defaultValue = AppConstant.PAGE_NUMBER, required = false) Integer pageNumber,
-            @RequestParam(value = "pageSize", defaultValue = AppConstant.PAGE_SIZE, required = false) Integer pageSize,
+    /**
+     * @apiNote This Api Is use For The Get All Category Details by Using Pagination And Sorting
+     * @param pageNumber
+     * @param pageSize
+     * @param sortBy
+     * @param sortDir
+     * @return
+     */
+    @GetMapping("/allcategorys")
+    public ResponseEntity<PageableResponse<CategoryDto>> getAllCategorys(
+            @RequestParam(value = "pageNumber", defaultValue = AppConstant.PAGE_NUMBER, required = false) int pageNumber,
+            @RequestParam(value = "pageSize", defaultValue = AppConstant.PAGE_SIZE, required = false) int pageSize,
             @RequestParam(value = "sortBy", defaultValue = AppConstant.SORT_BY, required = false) String sortBy,
             @RequestParam(value = "dirBY", defaultValue = AppConstant.SORT_DIR, required = false) String sortDir
     )
     {
-        PageableResponse<CategoryDto> response = this.service.getAllCategories(pageNumber, pageSize, sortBy, sortDir);
-
+        logger.info("Initiate the request for Get All the Categories Details with Pagination and Sorting");
+        PageableResponse<CategoryDto> response = this.service.getAllCategorys(pageNumber, pageSize, sortBy, sortDir);
+        logger.info("Completed the request for Get All the Categories Details with Pagination and Sorting");
         return new ResponseEntity<>(response,HttpStatus.OK);
     }
 }
