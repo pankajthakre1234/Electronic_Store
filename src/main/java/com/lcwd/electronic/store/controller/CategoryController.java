@@ -111,8 +111,8 @@ public class CategoryController {
      * @param sortDir
      * @return
      */
-    @GetMapping("/allCategorys/")
-    public ResponseEntity<PageableResponse<CategoryDto>> getAllCategorys(
+    @GetMapping("/allcategorys")
+    public ResponseEntity<PageableResponse<CategoryDto>> getAllCategories(
             @RequestParam(value = "pageNumber", defaultValue = AppConstant.PAGE_NUMBER, required = false) int pageNumber,
             @RequestParam(value = "pageSize", defaultValue = AppConstant.PAGE_SIZE, required = false) int pageSize,
             @RequestParam(value = "sortBy", defaultValue = AppConstant.SORT_BY, required = false) String sortBy,
@@ -120,7 +120,7 @@ public class CategoryController {
     )
     {
         logger.info("Initiate the request for Get All the Categories Details with Pagination and Sorting");
-        PageableResponse<CategoryDto> response = this.service.getAllCategorys(pageNumber, pageSize, sortBy, sortDir);
+        PageableResponse<CategoryDto> response = this.service.getAllCategories(pageNumber, pageSize, sortBy, sortDir);
         logger.info("Completed the request for Get All the Categories Details with Pagination and Sorting");
         return new ResponseEntity<>(response,HttpStatus.OK);
     }

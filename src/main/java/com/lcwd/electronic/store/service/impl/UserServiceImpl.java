@@ -165,7 +165,7 @@ public class UserServiceImpl implements UserServiceI {
         Page<User> page = this.userRepository.findAll(pageable);
         List<User> allusers = page.getContent();
 
-        PageableResponse<UserDto> response = Helper.getPageableResponse(page, UserDto.class);
+        PageableResponse<UserDto> response = Helper.getPageableResponse(page,UserDto.class);
         logger.info("Completed dao call for get All the User details By Sorting Page and Order");
         return response;
     }

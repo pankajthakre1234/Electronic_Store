@@ -156,7 +156,7 @@ public class UserController {
      * @return
      * @apiNote This Api is Use for The get All Users By Sorting and Pagination
      */
-    @GetMapping("/allusers/")
+    @GetMapping("/allusers")
     public ResponseEntity<PageableResponse<UserDto>> getAllUsersBySorting(
             @RequestParam(value = "pageNumber", defaultValue = AppConstant.PAGE_NUMBER, required = false) Integer pageNumber,
             @RequestParam(value = "pageSize", defaultValue = AppConstant.PAGE_SIZE, required = false) Integer pageSize,

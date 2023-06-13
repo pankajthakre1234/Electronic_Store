@@ -119,14 +119,14 @@ public class CategoryServiceImpl implements CategoryService {
      * @return
      */
     @Override
-    public PageableResponse<CategoryDto> getAllCategorys(int pageNumber, int pageSize, String sortBy, String sortDir)
+    public PageableResponse<CategoryDto> getAllCategories(int pageNumber, int pageSize, String sortBy, String sortDir)
     {
         logger.info("Initiating dao call for get All category details with Sorting Pagination And Order");
         Sort sort=(sortDir.equalsIgnoreCase("dsc"))?(Sort.by(sortBy).descending()):(Sort.by(sortBy).ascending());
 
         Pageable pageable= PageRequest.of(pageNumber,pageSize,sort);
         Page<Category> page = this.repository.findAll(pageable);
-        List<Category> content = page.getContent();
+        List<Category> categories = page.getContent();
 
         PageableResponse pageableResponse= Helper.getPageableResponse(page,CategoryDto.class);
         logger.info("Completed dao call for get All category details with Sorting Pagination And Order");
