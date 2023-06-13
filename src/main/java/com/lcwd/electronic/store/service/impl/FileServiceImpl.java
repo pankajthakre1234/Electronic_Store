@@ -28,7 +28,7 @@ public class FileServiceImpl implements FileService {
     {
         logger.info("Initiating dao call for the Upload User Image details");
         String originalFilename = file.getOriginalFilename();
-        logger.info("File name : {}"+ originalFilename);
+        logger.info("File name : {}"+ originalFilename,file);
         String filename = UUID.randomUUID().toString();
         String extension = originalFilename.substring(originalFilename.lastIndexOf("."));
         logger.info("Uploaded image Name :{}"+extension);

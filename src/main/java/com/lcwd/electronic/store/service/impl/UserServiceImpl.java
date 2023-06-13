@@ -140,10 +140,10 @@ public class UserServiceImpl implements UserServiceI {
      */
     @Override
     public List<UserDto> searchUser(String keyword) {
-        logger.info("Initiating dao call for Search User details");
+        logger.info("Initiating dao call for Search User details with :{}",keyword);
         List<User> users = this.userRepository.findByNameContaining(keyword);
         List<UserDto> userDtos = users.stream().map((user) -> this.mapper.map(user, UserDto.class)).collect(Collectors.toList());
-        logger.info("Initiating dao call for Search User details");
+        logger.info("Initiating dao call for Search User details with :{}",keyword);
         return userDtos;
     }
 

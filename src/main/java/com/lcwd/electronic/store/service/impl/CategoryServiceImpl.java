@@ -56,14 +56,14 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public CategoryDto updateCategory(CategoryDto categoryDto, Integer catId)
     {
-        logger.info("Initiating dao call for Update the category details");
+        logger.info("Initiating dao call for Update the category details with id :{}",catId);
         Category categories = this.repository.findById(catId).orElseThrow(() -> new ResourceNotFoundException("Categories", "cateId", catId));
         categories.setTitle(categoryDto.getTitle());
         categories.setDescription(categoryDto.getDescription());
         categories.setCategoryImage(categoryDto.getCategoryImage());
 
         Category saveCategory = this.repository.save(categories);
-        logger.info("Completed dao call for Update the category details");
+        logger.info("Completed dao call for Update the category details with id :{}",catId);
         return this.mapper.map(saveCategory,CategoryDto.class);
     }
 
@@ -89,11 +89,11 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public void deleteCategory(Integer catId)
     {
-        logger.info("Initiating dao call for Delete the category details");
+        logger.info("Initiating dao call for Delete the category details with id :{}",catId);
 
         Category categories = this.repository.findById(catId).orElseThrow(() -> new ResourceNotFoundException("Categories", "catId", catId));
         this.repository.delete(categories);
-        logger.info("Completed dao call for Delete the category details");
+        logger.info("Completed dao call for Delete the category details with Id :{}",catId);
     }
 
     /**
@@ -104,9 +104,9 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public CategoryDto getSingleCategory(Integer catId)
     {
-        logger.info("Initiating dao call for get the Single category details");
+        logger.info("Initiating dao call for get the Single category details with Id :{}",catId);
         Category categories = this.repository.findById(catId).orElseThrow(() -> new ResourceNotFoundException("Categories", "catId", catId));
-        logger.info("Completed dao call for get the Single category details");
+        logger.info("Completed dao call for get the Single category details with Id :{}",catId);
         return this.mapper.map(categories,CategoryDto.class);
     }
 

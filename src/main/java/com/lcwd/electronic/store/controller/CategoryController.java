@@ -51,9 +51,9 @@ public class CategoryController {
     @PutMapping("/cat/{catId}")
     public ResponseEntity<CategoryDto> updateCategory(@Valid @RequestBody CategoryDto categoryDto, @PathVariable Integer catId)
     {
-        logger.info("Initiate the request for Update the Categories Details");
+        logger.info("Initiate the request for Update the Categories Details with catId :{}",catId);
         CategoryDto categoryDto1 = this.service.updateCategory(categoryDto, catId);
-        logger.info("Completed the request for Update the Categories Details");
+        logger.info("Completed the request for Update the Categories Details with catId :{}",catId);
 
         return new ResponseEntity<>(categoryDto1,HttpStatus.OK);
     }
@@ -81,9 +81,9 @@ public class CategoryController {
     @GetMapping("/cat/{catId}")
     public ResponseEntity<CategoryDto> getSingleCategory(@PathVariable Integer catId)
     {
-        logger.info("Initiate the request for get the Single Categories Details");
+        logger.info("Initiate the request for get the Single Categories Details with catId :{}",catId);
         CategoryDto singleCategory = this.service.getSingleCategory(catId);
-        logger.info("Completed the request for get the Single Categories Details");
+        logger.info("Completed the request for get the Single Categories Details with catId :{}",catId);
         return new ResponseEntity<>(singleCategory,HttpStatus.OK);
     }
 
@@ -96,9 +96,9 @@ public class CategoryController {
     @DeleteMapping("/delete/{catId}")
     public ResponseEntity<CategoryDto> deleteCategory(@PathVariable Integer catId)
     {
-        logger.info("Initiate the request for Delete the Categories Details");
+        logger.info("Initiate the request for Delete the Categories Details with catId :{}",catId);
         this.service.deleteCategory(catId);
-        logger.info("Completed the request for Delete the Categories Details");
+        logger.info("Completed the request for Delete the Categories Details with catId :{}",catId);
         return new ResponseEntity(new ApiResponse(AppConstant.CATEGORY_DELETE,false), HttpStatus.OK);
     }
 
@@ -111,7 +111,7 @@ public class CategoryController {
      * @param sortDir
      * @return
      */
-    @GetMapping("/allCategorys")
+    @GetMapping("/allCategorys/")
     public ResponseEntity<PageableResponse<CategoryDto>> getAllCategorys(
             @RequestParam(value = "pageNumber", defaultValue = AppConstant.PAGE_NUMBER, required = false) int pageNumber,
             @RequestParam(value = "pageSize", defaultValue = AppConstant.PAGE_SIZE, required = false) int pageSize,
