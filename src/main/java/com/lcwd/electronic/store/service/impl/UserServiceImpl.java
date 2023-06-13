@@ -6,7 +6,7 @@ import com.lcwd.electronic.store.exception.ResourceNotFoundException;
 import com.lcwd.electronic.store.helper.PageableResponse;
 import com.lcwd.electronic.store.repository.UserRepository;
 import com.lcwd.electronic.store.service.UserServiceI;
-import com.lcwd.electronic.store.utility.HelperPageable;
+import com.lcwd.electronic.store.utility.Helper;
 import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -165,7 +165,7 @@ public class UserServiceImpl implements UserServiceI {
         Page<User> page = this.userRepository.findAll(pageable);
         List<User> allusers = page.getContent();
 
-        PageableResponse<UserDto> response = HelperPageable.getPageableResponse(page, UserDto.class);
+        PageableResponse<UserDto> response = Helper.getPageableResponse(page, UserDto.class);
         logger.info("Completed dao call for get All the User details By Sorting Page and Order");
         return response;
     }

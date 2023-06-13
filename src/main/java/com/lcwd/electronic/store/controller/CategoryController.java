@@ -12,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -25,12 +26,13 @@ public class CategoryController {
 
 //    create
     /**
+     * @Auther Pankaj
      * @apiNote This Api Is use For The save The Category Details
      * @param categoryDto
      * @return
      */
     @PostMapping("/category")
-    public ResponseEntity<CategoryDto> createCategory(@RequestBody CategoryDto categoryDto)
+    public ResponseEntity<CategoryDto> createCategory(@Valid @RequestBody CategoryDto categoryDto)
     {
         logger.info("Initiate the request for Save the Categories Details");
         CategoryDto category = this.service.createCategory(categoryDto);
@@ -47,7 +49,7 @@ public class CategoryController {
      * @return
      */
     @PutMapping("/cat/{catId}")
-    public ResponseEntity<CategoryDto> updateCategory(@RequestBody CategoryDto categoryDto, @PathVariable Integer catId)
+    public ResponseEntity<CategoryDto> updateCategory(@Valid @RequestBody CategoryDto categoryDto, @PathVariable Integer catId)
     {
         logger.info("Initiate the request for Update the Categories Details");
         CategoryDto categoryDto1 = this.service.updateCategory(categoryDto, catId);
@@ -97,7 +99,7 @@ public class CategoryController {
         logger.info("Initiate the request for Delete the Categories Details");
         this.service.deleteCategory(catId);
         logger.info("Completed the request for Delete the Categories Details");
-        return new ResponseEntity(new ApiResponse(AppConstant.USER_DELETE,false), HttpStatus.OK);
+        return new ResponseEntity(new ApiResponse(AppConstant.CATEGORY_DELETE,false), HttpStatus.OK);
     }
 
 //    get pagination
@@ -109,7 +111,7 @@ public class CategoryController {
      * @param sortDir
      * @return
      */
-    @GetMapping("/allcategorys")
+    @GetMapping("/allCategorys")
     public ResponseEntity<PageableResponse<CategoryDto>> getAllCategorys(
             @RequestParam(value = "pageNumber", defaultValue = AppConstant.PAGE_NUMBER, required = false) int pageNumber,
             @RequestParam(value = "pageSize", defaultValue = AppConstant.PAGE_SIZE, required = false) int pageSize,

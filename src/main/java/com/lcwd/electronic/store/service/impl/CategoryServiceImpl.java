@@ -6,7 +6,7 @@ import com.lcwd.electronic.store.exception.ResourceNotFoundException;
 import com.lcwd.electronic.store.helper.PageableResponse;
 import com.lcwd.electronic.store.repository.CategoryRepository;
 import com.lcwd.electronic.store.service.CategoryService;
-import com.lcwd.electronic.store.utility.HelperPageable;
+import com.lcwd.electronic.store.utility.Helper;
 import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -32,6 +32,7 @@ public class CategoryServiceImpl implements CategoryService {
     Logger logger= LoggerFactory.getLogger(CategoryServiceImpl.class);
 
     /**
+     * @Auther Pankaj
      * @implNote This Process is Implementing The Create Category Details
      * @param categoryDto
      * @return
@@ -127,7 +128,7 @@ public class CategoryServiceImpl implements CategoryService {
         Page<Category> page = this.repository.findAll(pageable);
         List<Category> content = page.getContent();
 
-        PageableResponse pageableResponse= HelperPageable.getPageableResponse(page,CategoryDto.class);
+        PageableResponse pageableResponse= Helper.getPageableResponse(page,CategoryDto.class);
         logger.info("Completed dao call for get All category details with Sorting Pagination And Order");
         return pageableResponse;
     }

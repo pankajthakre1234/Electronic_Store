@@ -17,4 +17,8 @@ public class AppConstant {
     public static final String SORT_DIR ="Ascending or Descending";
 
     public static final String IMAGE_UPLOADED="This Image uploaded Successfully";
+
+    public static final String CATEGORY_NOT_FOUND ="This Category is Not Found ";
+
+    public static final String CATEGORY_DELETE ="Category Details delete Successfully";
 }
