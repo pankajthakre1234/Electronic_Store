@@ -1,18 +1,28 @@
 package com.lcwd.electronic.store.controller;
 
 import com.lcwd.electronic.store.dto.CategoryDto;
+import com.lcwd.electronic.store.dto.UserDto;
 import com.lcwd.electronic.store.helper.ApiResponse;
 import com.lcwd.electronic.store.helper.AppConstant;
+import com.lcwd.electronic.store.helper.ImageResponse;
 import com.lcwd.electronic.store.helper.PageableResponse;
 import com.lcwd.electronic.store.service.CategoryService;
+import com.lcwd.electronic.store.service.FileService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.StreamUtils;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
 
 @RestController
@@ -21,6 +31,12 @@ public class CategoryController {
 
     @Autowired
     private CategoryService service;
+
+    @Autowired
+    private FileService fileService;
+
+    @Value("${user.profile.image.path}")
+    public String imageUploadPath;
 
     Logger logger= LoggerFactory.getLogger(CategoryController.class);
 
@@ -123,5 +139,44 @@ public class CategoryController {
         PageableResponse<CategoryDto> response = this.service.getAllCategories(pageNumber, pageSize, sortBy, sortDir);
         logger.info("Completed the request for Get All the Categories Details with Pagination and Sorting");
         return new ResponseEntity<>(response,HttpStatus.OK);
+    }
+
+//    upload Cover Image
+
+    /**
+     * @apiNote This Api Is Use for the Upload Image
+     * @param catId
+     * @param image
+     * @return
+     * @throws IOException
+     */
+    @PostMapping("/catimage/{catId}")
+    public ResponseEntity<ImageResponse> uploadCategoryImage(@PathVariable Integer catId, @RequestParam("userImage") MultipartFile image) throws IOException
+    {
+        logger.info("Initiate the request for Upload the Category Image with catId :{}",catId);
+        String imageName = this.fileService.uploadFile(image, imageUploadPath);
+
+        CategoryDto category = this.service.getSingleCategory(catId);
+        category.setCategoryImage(imageName);
+
+        CategoryDto categoryDto = this.service.updateCategory(category, catId);
+
+        ImageResponse imageResponse = ImageResponse.builder().message(AppConstant.IMAGE_UPLOADED).imageName(imageName).success(true).build();
+        logger.info("Completed the request for Upload the Category Image with catId :{}",catId);
+        return new ResponseEntity<>(imageResponse, HttpStatus.CREATED);
+    }
+
+//    serve image
+
+    @GetMapping("/catimage/{catId}")
+    public void serveUserImage(@PathVariable Integer catId, HttpServletResponse response) throws IOException
+    {
+        logger.info("Initiate the request for serve the Category Image with userId :{}",catId);
+        CategoryDto category = this.service.getSingleCategory(catId);
+
+        InputStream resource = this.fileService.getResource(imageUploadPath, category.getCategoryImage());
+        response.setContentType(MediaType.IMAGE_JPEG_VALUE);
+        StreamUtils.copy(resource,response.getOutputStream());
+        logger.info("Completed the request for serve the Category Image with userId :{}",catId);
     }
 }
