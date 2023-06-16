@@ -14,11 +14,10 @@ import javax.validation.constraints.Size;
 @ToString
 public class CategoryDto {
 
-    @NotEmpty
     private Integer catId;
 
-    @NotEmpty(message = "Title minimum 5 character")
-    @Size(min = 5,max = 100,message = "title must Not be Empty")
+    @NotEmpty(message = "title must Not be Empty")
+    @Size(min = 2,max = 100,message = "Title minimum 2 character")
     private String title;
 
     @NotEmpty(message = "Must Not Be Empty")

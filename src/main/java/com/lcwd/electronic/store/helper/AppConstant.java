@@ -21,4 +21,8 @@ public class AppConstant {
     public static final String CATEGORY_NOT_FOUND ="This Category is Not Found ";
 
     public static final String CATEGORY_DELETE ="Category Details delete Successfully";
+
+    public static final String PRODUCT_NOT_FOUND ="This Product is Not Found ";
+
+    public static final String PRODUCT_DELETE ="This Product are deleted Successfully";
 }

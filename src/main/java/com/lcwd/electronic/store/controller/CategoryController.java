@@ -109,7 +109,7 @@ public class CategoryController {
      * @param catId
      * @return
      */
-    @DeleteMapping("/delete/{catId}")
+    @DeleteMapping("/cat/{catId}")
     public ResponseEntity<CategoryDto> deleteCategory(@PathVariable Integer catId)
     {
         logger.info("Initiate the request for Delete the Categories Details with catId :{}",catId);
@@ -142,7 +142,6 @@ public class CategoryController {
     }
 
 //    upload Cover Image
-
     /**
      * @apiNote This Api Is Use for the Upload Image
      * @param catId
@@ -167,7 +166,12 @@ public class CategoryController {
     }
 
 //    serve image
-
+    /**
+     * @apiNote This Api is Use For The Serve Cover image
+     * @param catId
+     * @param response
+     * @throws IOException
+     */
     @GetMapping("/catimage/{catId}")
     public void serveUserImage(@PathVariable Integer catId, HttpServletResponse response) throws IOException
     {

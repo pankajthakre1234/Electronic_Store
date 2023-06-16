@@ -26,7 +26,7 @@ public interface ProductService {
     PageableResponse<ProductDto> getAllLive(int pageNumber, int pageSize, String sortBy, String sortDir);
 
 //    search product
-PageableResponse<ProductDto> searchByTitleContaining(String subTitle,int pageNumber, int pageSize, String sortBy, String sortDir);
+    PageableResponse<ProductDto> searchByTitleContaining(String subTitle,int pageNumber, int pageSize, String sortBy, String sortDir);
 
 }
 

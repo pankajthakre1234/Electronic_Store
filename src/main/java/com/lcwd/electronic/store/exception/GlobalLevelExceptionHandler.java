@@ -12,7 +12,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @RestControllerAdvice
-public class GlobalLevelException {
+public class GlobalLevelExceptionHandler {
 
     @ExceptionHandler(ResourceNotFoundException.class)
     public ResponseEntity<ApiResponse> resourceNotFoundExceptionHandel(ResourceNotFoundException ex) {
@@ -42,9 +42,8 @@ public class GlobalLevelException {
     @ExceptionHandler(BadApiRequest.class)
     public ResponseEntity<BadApiRequest> BadApiRequestHAndler(BadApiRequest ex) {
         String message = ex.getMessage();
+        ApiResponse apiResponse = new ApiResponse(message, false);
 
-        BadApiRequest apiResponse = new BadApiRequest(message,false);
-
-        return new ResponseEntity<BadApiRequest>(apiResponse, HttpStatus.BAD_REQUEST);
+        return new ResponseEntity(apiResponse, HttpStatus.BAD_REQUEST);
     }
 }

@@ -28,14 +28,17 @@ public class FileServiceImpl implements FileService {
     {
         logger.info("Initiating dao call for the Upload User Image details");
         String originalFilename = file.getOriginalFilename();
-        logger.info("File name : {}"+ originalFilename,file);
+        logger.info("File name : {}", originalFilename);
         String filename = UUID.randomUUID().toString();
         String extension = originalFilename.substring(originalFilename.lastIndexOf("."));
-        logger.info("Uploaded image Name :{}"+extension);
+        logger.info("Uploaded image Name :{}" ,extension);
         String fileNameWithExtension = filename + extension;
         String fullPathWitheFilename = path + fileNameWithExtension;
 
+        logger.info("Full Path Image :{}",fullPathWitheFilename);
         if (extension.equalsIgnoreCase(".jpg") || extension.equalsIgnoreCase(".pnj")) {
+
+            logger.info("file Extension is :{}",extension);
             File folder = new File(path);
             if (!folder.exists()) {
                 folder.mkdirs();
