@@ -22,6 +22,13 @@ public class ProductController {
     Logger logger= LoggerFactory.getLogger(ProductController.class);
 
     //    create
+
+    /**
+     * @Auher Pankaj
+     * @apiNote This Api Is use for the save Product details
+     * @param productDto
+     * @return
+     */
     @PostMapping("/product")
     public ResponseEntity<ProductDto> createProduct(@RequestBody ProductDto productDto)
     {
@@ -31,7 +38,14 @@ public class ProductController {
         return new ResponseEntity<>(productDto1, HttpStatus.CREATED);
     }
 
+
     //    update
+    /**
+     * @apiNote This Api Is Use for the update Product details
+     * @param productId
+     * @param productDto
+     * @return
+     */
     @PutMapping("/product/{productId}")
     public ResponseEntity<ProductDto> updateProduct(@PathVariable Integer productId,@RequestBody ProductDto productDto)
     {
@@ -41,7 +55,13 @@ public class ProductController {
         return new ResponseEntity<>(updated,HttpStatus.OK);
     }
 
+
     //    delete
+    /**
+     * @apiNote This Api Is use for the Delete the Product Details
+     * @param productId
+     * @return
+     */
     @DeleteMapping("/product/{productId}")
     public ResponseEntity<ProductDto> deleteProduct(@PathVariable Integer productId)
     {
@@ -52,6 +72,11 @@ public class ProductController {
     }
 
     //    get Single
+    /**
+     * @apiNote This Api Is Use for the get Single Product details
+     * @param productId
+     * @return
+     */
     @GetMapping("/product/{productId}")
     public ResponseEntity<ProductDto> getSingleProduct(@PathVariable Integer productId)
     {
@@ -62,6 +87,15 @@ public class ProductController {
     }
 
 //    get All
+
+    /**
+     * @apiNote This Api Is use for the Get All The Product Details
+     * @param pageNumber
+     * @param pageSize
+     * @param sortBy
+     * @param sortDir
+     * @return
+     */
     @GetMapping("/products")
     public ResponseEntity<PageableResponse<ProductDto>> getAllProduct
     (
@@ -78,6 +112,15 @@ public class ProductController {
     }
 
 //    get All live
+
+    /**
+     * @apiNote This Api is used For the get All Live products
+     * @param pageNumber
+     * @param pageSize
+     * @param sortBy
+     * @param sortDir
+     * @return
+     */
     @GetMapping("/liveproducts")
 public ResponseEntity<PageableResponse<ProductDto>> getAllLiveProduct
 (
@@ -94,6 +137,16 @@ public ResponseEntity<PageableResponse<ProductDto>> getAllLiveProduct
 }
 
 //    search
+
+    /**
+     * @apiNote This Api Is use for search All the Products
+     * @param subTitle
+     * @param pageNumber
+     * @param pageSize
+     * @param sortBy
+     * @param sortDir
+     * @return
+     */
     @GetMapping("/search/{subTitle}")
     public  ResponseEntity<PageableResponse<ProductDto>> searchProduct
     (
