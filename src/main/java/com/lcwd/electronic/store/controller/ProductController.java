@@ -5,6 +5,8 @@ import com.lcwd.electronic.store.helper.ApiResponse;
 import com.lcwd.electronic.store.helper.AppConstant;
 import com.lcwd.electronic.store.helper.PageableResponse;
 import com.lcwd.electronic.store.service.ProductService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,12 +19,15 @@ public class ProductController {
     @Autowired
     private ProductService productService;
 
+    Logger logger= LoggerFactory.getLogger(ProductController.class);
+
     //    create
     @PostMapping("/product")
     public ResponseEntity<ProductDto> createProduct(@RequestBody ProductDto productDto)
     {
+        logger.info("Initiate the request for Save the Product Details");
         ProductDto productDto1 = this.productService.create(productDto);
-
+        logger.info("Completed the request for Save the Product Details");
         return new ResponseEntity<>(productDto1, HttpStatus.CREATED);
     }
 
@@ -30,8 +35,9 @@ public class ProductController {
     @PutMapping("/product/{productId}")
     public ResponseEntity<ProductDto> updateProduct(@PathVariable Integer productId,@RequestBody ProductDto productDto)
     {
+        logger.info("Initiate the request for Update the Product Details with id:{}",productId);
         ProductDto updated = this.productService.update(productDto, productId);
-
+        logger.info("Completed the request for Update the Product Details with id:{}",productId);
         return new ResponseEntity<>(updated,HttpStatus.OK);
     }
 
@@ -39,8 +45,9 @@ public class ProductController {
     @DeleteMapping("/product/{productId}")
     public ResponseEntity<ProductDto> deleteProduct(@PathVariable Integer productId)
     {
+        logger.info("Initiate the request for delete the Product Details with id:{}",productId);
         this.productService.delete(productId);
-
+        logger.info("Completed the request for delete the Product Details with id:{}",productId);
         return new ResponseEntity(new ApiResponse(AppConstant.PRODUCT_DELETE,true),HttpStatus.OK);
     }
 
@@ -48,8 +55,9 @@ public class ProductController {
     @GetMapping("/product/{productId}")
     public ResponseEntity<ProductDto> getSingleProduct(@PathVariable Integer productId)
     {
+        logger.info("Initiate the request for the get Single Product Details with id:{}",productId);
         ProductDto singleProduct = this.productService.getSingle(productId);
-
+        logger.info("Completed the request for the get Single Product Details with id:{}",productId);
         return new ResponseEntity<>(singleProduct,HttpStatus.OK);
     }
 
@@ -63,8 +71,9 @@ public class ProductController {
             @RequestParam(value = "dirBY", defaultValue = AppConstant.SORT_DIR, required = false) String sortDir
     )
     {
+        logger.info("Initiate the request for the get All Product Details");
         PageableResponse<ProductDto> response = this.productService.getAll(pageNumber, pageSize, sortBy, sortDir);
-
+        logger.info("Completed the request for the get All Product Details");
         return new ResponseEntity<>(response,HttpStatus.OK);
     }
 
@@ -78,8 +87,9 @@ public ResponseEntity<PageableResponse<ProductDto>> getAllLiveProduct
         @RequestParam(value = "dirBY", defaultValue = AppConstant.SORT_DIR, required = false) String sortDir
 )
 {
+    logger.info("Initiate the request for the get All Live Product Details");
     PageableResponse<ProductDto> response = this.productService.getAllLive(pageNumber, pageSize, sortBy, sortDir);
-
+    logger.info("Completed the request for the get All Live Product Details");
     return new ResponseEntity<>(response,HttpStatus.OK);
 }
 
@@ -94,8 +104,9 @@ public ResponseEntity<PageableResponse<ProductDto>> getAllLiveProduct
             @RequestParam(value = "dirBY", defaultValue = AppConstant.SORT_DIR, required = false) String sortDir
     )
     {
+        logger.info("Initiate the request for the Search Product Details with title:{}",subTitle);
         PageableResponse<ProductDto> productResponse = this.productService.searchByTitleContaining(subTitle, pageNumber, pageSize, sortBy, sortDir);
-
+        logger.info("Completed the request for the Search Product Details with title:{}",subTitle);
         return new ResponseEntity<>(productResponse,HttpStatus.OK);
     }
 
