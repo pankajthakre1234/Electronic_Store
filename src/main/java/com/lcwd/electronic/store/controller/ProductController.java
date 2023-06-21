@@ -182,6 +182,13 @@ public ResponseEntity<PageableResponse<ProductDto>> getAllLiveProduct
         return new ResponseEntity<>(productResponse,HttpStatus.OK);
     }
 
+    /**
+     * @apiNote This Api Is use for the Upload Product images
+     * @param productId
+     * @param image
+     * @return
+     * @throws IOException
+     */
 //    upload images
     @PostMapping("/uploadimage/{productId}")
     public ResponseEntity<ImageResponse> uploadProductImages
@@ -199,17 +206,23 @@ public ResponseEntity<PageableResponse<ProductDto>> getAllLiveProduct
         return new ResponseEntity<>(imageResponse, HttpStatus.CREATED);
     }
 
+    /**
+     * @apiNote This Api is Use for the Serve the Product images
+     * @param productId
+     * @param response
+     * @throws IOException
+     */
 //    serve images
 @GetMapping("/uploadimage/{productId}")
 public void serveUserImage(@PathVariable Integer productId, HttpServletResponse response) throws IOException
 {
-    logger.info("Initiate the request for serve the Category Image with userId :{}",productId);
+    logger.info("Initiate the request for serve the Product Image with userId :{}",productId);
     ProductDto productDto = this.productService.getSingle(productId);
 
     InputStream resource = this.fileService.getResource(imageUploadPath, productDto.getProductImage());
     response.setContentType(MediaType.IMAGE_JPEG_VALUE);
     StreamUtils.copy(resource,response.getOutputStream());
-    logger.info("Completed the request for serve the Category Image with userId :{}",productId);
+    logger.info("Completed the request for serve the Product Image with userId :{}",productId);
 }
 
 }
