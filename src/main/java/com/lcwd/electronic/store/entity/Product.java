@@ -41,4 +41,7 @@ public class Product {
 
     @Column(name = "available_stock")
     private boolean stock;
+
+    @Column(name = "product_image")
+    private String productImage;
 }

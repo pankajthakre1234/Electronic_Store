@@ -35,7 +35,7 @@ public class CategoryController {
     @Autowired
     private FileService fileService;
 
-    @Value("${user.profile.image.path}")
+    @Value("${category.image.path}")
     public String imageUploadPath;
 
     Logger logger= LoggerFactory.getLogger(CategoryController.class);

@@ -1,18 +1,24 @@
 package com.lcwd.electronic.store.controller;
 
+import com.lcwd.electronic.store.dto.CategoryDto;
 import com.lcwd.electronic.store.dto.ProductDto;
 import com.lcwd.electronic.store.helper.ApiResponse;
 import com.lcwd.electronic.store.helper.AppConstant;
+import com.lcwd.electronic.store.helper.ImageResponse;
 import com.lcwd.electronic.store.helper.PageableResponse;
+import com.lcwd.electronic.store.service.FileService;
 import com.lcwd.electronic.store.service.ProductService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
+import java.io.IOException;
 import java.util.Date;
 
 @RestController
@@ -21,6 +27,13 @@ public class ProductController {
 
     @Autowired
     private ProductService productService;
+
+    @Autowired
+    private FileService fileService;
+
+    @Value("${product.image.path}")
+    public String imageUploadPath;
+
 
     Logger logger= LoggerFactory.getLogger(ProductController.class);
 
@@ -164,5 +177,24 @@ public ResponseEntity<PageableResponse<ProductDto>> getAllLiveProduct
         logger.info("Completed the request for the Search Product Details with title:{}",subTitle);
         return new ResponseEntity<>(productResponse,HttpStatus.OK);
     }
+
+//    upload images
+    @PostMapping("/uploadimage/{productId}")
+    public ResponseEntity<ImageResponse> uploadProductImages
+            (@PathVariable Integer productId, @RequestParam ("productImage")MultipartFile image) throws IOException {
+        logger.info("Initiate the request for Upload the Product Image with catId :{}",productId);
+        String imageName = this.fileService.uploadFile(image, imageUploadPath);
+
+        ProductDto productDto = this.productService.getSingle(productId);
+        productDto.setProductImage(imageName);
+
+        ResponseEntity<ProductDto> updatedProduct = this.updateProduct(productId, productDto);
+
+        ImageResponse imageResponse = ImageResponse.builder().message(AppConstant.IMAGE_UPLOADED).imageName(imageName).success(true).build();
+        logger.info("Completed the request for Upload the Product Image with catId :{}",productId);
+        return new ResponseEntity<>(imageResponse, HttpStatus.CREATED);
+    }
+
+//    serve images
 
 }
