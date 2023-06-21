@@ -17,6 +17,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -29,85 +30,82 @@ public class ProductServiceImpl implements ProductService {
     @Autowired
     private ModelMapper mapper;
 
-    Logger logger= LoggerFactory.getLogger(ProductServiceImpl.class);
+    Logger logger = LoggerFactory.getLogger(ProductServiceImpl.class);
 
     /**
-     * @Auther Pankaj
-     * @implNote This Process is Implementing for the save the Product details
      * @param productDto
      * @return
+     * @Auther Pankaj
+     * @implNote This Process is Implementing for the save the Product details
      */
     @Override
-    public ProductDto create(ProductDto productDto)
-    {
+    public ProductDto create(ProductDto productDto) {
         logger.info("Initiating dao call for save the Product details");
         Product product = this.mapper.map(productDto, Product.class);
 
+        product.setAddedDate(new Date());
         Product saveProduct = this.repository.save(product);
         logger.info("Completed dao call for save the Product details");
         return this.mapper.map(saveProduct, ProductDto.class);
     }
 
     /**
-     * @implNote This Process is Implementing for the update the Product details
      * @param productDto
      * @param productId
      * @return
+     * @implNote This Process is Implementing for the update the Product details
      */
     @Override
-    public ProductDto update(ProductDto productDto, Integer productId)
-    {
-        logger.info("Initiating dao call for update the Product details with id :{}",productId);
+    public ProductDto update(ProductDto productDto, Integer productId) {
+        logger.info("Initiating dao call for update the Product details with id :{}", productId);
         Product product = this.repository.findById(productId).orElseThrow(() -> new ResourceNotFoundException("Product", "productId", productId));
         product.setTitle(productDto.getTitle());
         product.setDescription(productDto.getDescription());
         product.setQuantity(productDto.getQuantity());
         product.setPrice(productDto.getPrice());
+        product.setAddedDate(new Date());
         product.setDiscountedPrice(productDto.getDiscountedPrice());
         product.setLive(productDto.isLive());
         product.setStock(productDto.isStock());
-        logger.info("Completed dao call for update the Product details with id :{}",productId);
+        logger.info("Completed dao call for update the Product details with id :{}", productId);
         return this.mapper.map(product, ProductDto.class);
     }
 
     /**
-     * @implNote This Process is Implementing for the delete the Product details
      * @param productId
+     * @implNote This Process is Implementing for the delete the Product details
      */
     @Override
-    public void delete(Integer productId)
-    {
-        logger.info("Initiating dao call for delete the Product details with id :{}",productId);
+    public void delete(Integer productId) {
+        logger.info("Initiating dao call for delete the Product details with id :{}", productId);
         Product product = this.repository.findById(productId).orElseThrow(() -> new ResourceNotFoundException("Product", "productId", productId));
-        logger.info("Completed dao call for delete the Product details with id :{}",productId);
+        logger.info("Completed dao call for delete the Product details with id :{}", productId);
         this.repository.delete(product);
     }
 
     /**
-     * @implNote This Process is Implementing for the get Single Product details
      * @param productId
      * @return
+     * @implNote This Process is Implementing for the get Single Product details
      */
     @Override
-    public ProductDto getSingle(Integer productId)
-    {
-        logger.info("Initiating dao call for get Single Product details with id :{}",productId);
+    public ProductDto getSingle(Integer productId) {
+        logger.info("Initiating dao call for get Single Product details with id :{}", productId);
         Product product = this.repository.findById(productId).orElseThrow(() -> new ResourceNotFoundException("Product", "productId", productId));
-        logger.info("Completed dao call for get Single Product details with id :{}",productId);
+        logger.info("Completed dao call for get Single Product details with id :{}", productId);
         return this.mapper.map(product, ProductDto.class);
     }
 
     /**
-     * @implNote This Process is Implementing for the get All the Product details
      * @param pageNumber
      * @param pageSize
      * @param sortBy
      * @param sortDir
      * @return
+     * @implNote This Process is Implementing for the get All the Product details
      */
     @Override
-    public PageableResponse<ProductDto> getAll(int pageNumber, int pageSize, String sortBy, String sortDir)
-    {
+    public PageableResponse<ProductDto> getAll(int pageNumber, int pageSize, String sortBy, String sortDir) {
         logger.info("Initiating dao call for get All Product details");
         Sort sort = (sortDir.equalsIgnoreCase("dsc")) ? (Sort.by(sortBy).descending()) : (Sort.by(sortBy).ascending());
 
@@ -122,16 +120,15 @@ public class ProductServiceImpl implements ProductService {
     }
 
     /**
-     * @implNote This Process is Implementing for the get All the live Product details
      * @param pageNumber
      * @param pageSize
      * @param sortBy
      * @param sortDir
      * @return
+     * @implNote This Process is Implementing for the get All the live Product details
      */
     @Override
-    public PageableResponse<ProductDto> getAllLive(int pageNumber, int pageSize, String sortBy, String sortDir)
-    {
+    public PageableResponse<ProductDto> getAllLive(int pageNumber, int pageSize, String sortBy, String sortDir) {
         logger.info("Initiating dao call for get All Live Product details");
         Sort sort = (sortDir.equalsIgnoreCase("dsc")) ? (Sort.by(sortBy).descending()) : (Sort.by(sortBy).ascending());
 
@@ -147,17 +144,16 @@ public class ProductServiceImpl implements ProductService {
     }
 
     /**
-     * @implNote This Process is Implementing for the Search the Product details
      * @param subTitle
      * @param pageNumber
      * @param pageSize
      * @param sortBy
      * @param sortDir
      * @return
+     * @implNote This Process is Implementing for the Search the Product details
      */
     @Override
-      public PageableResponse<ProductDto> searchByTitleContaining(String subTitle, int pageNumber, int pageSize, String sortBy, String sortDir)
-    {
+    public PageableResponse<ProductDto> searchByTitleContaining(String subTitle, int pageNumber, int pageSize, String sortBy, String sortDir) {
         logger.info("Initiating dao call for Search Product details");
         Sort sort = (sortDir.equalsIgnoreCase("dsc")) ? (Sort.by(sortBy).descending()) : (Sort.by(sortBy).ascending());
 

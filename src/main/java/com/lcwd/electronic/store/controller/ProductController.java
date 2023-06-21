@@ -12,6 +12,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+import java.util.Date;
+
 @RestController
 @RequestMapping("api/")
 public class ProductController {
@@ -22,7 +25,6 @@ public class ProductController {
     Logger logger= LoggerFactory.getLogger(ProductController.class);
 
     //    create
-
     /**
      * @Auher Pankaj
      * @apiNote This Api Is use for the save Product details
@@ -30,10 +32,13 @@ public class ProductController {
      * @return
      */
     @PostMapping("/product")
-    public ResponseEntity<ProductDto> createProduct(@RequestBody ProductDto productDto)
+    public ResponseEntity<ProductDto> createProduct( @RequestBody ProductDto productDto)
     {
         logger.info("Initiate the request for Save the Product Details");
         ProductDto productDto1 = this.productService.create(productDto);
+
+        productDto1.setAddedDate(new Date());
+
         logger.info("Completed the request for Save the Product Details");
         return new ResponseEntity<>(productDto1, HttpStatus.CREATED);
     }
@@ -87,7 +92,6 @@ public class ProductController {
     }
 
 //    get All
-
     /**
      * @apiNote This Api Is use for the Get All The Product Details
      * @param pageNumber
@@ -101,7 +105,7 @@ public class ProductController {
     (
             @RequestParam(value = "pageNumber", defaultValue = AppConstant.PAGE_NUMBER, required = false) int pageNumber,
             @RequestParam(value = "pageSize", defaultValue = AppConstant.PAGE_SIZE, required = false) int pageSize,
-            @RequestParam(value = "sortBy", defaultValue = AppConstant.SORT_BY, required = false) String sortBy,
+            @RequestParam(value = "sortBy", defaultValue = AppConstant.SORT_BY_PRODUCT, required = false) String sortBy,
             @RequestParam(value = "dirBY", defaultValue = AppConstant.SORT_DIR, required = false) String sortDir
     )
     {
@@ -112,7 +116,6 @@ public class ProductController {
     }
 
 //    get All live
-
     /**
      * @apiNote This Api is used For the get All Live products
      * @param pageNumber
@@ -121,12 +124,12 @@ public class ProductController {
      * @param sortDir
      * @return
      */
-    @GetMapping("/liveproducts")
+    @GetMapping("/products/live")
 public ResponseEntity<PageableResponse<ProductDto>> getAllLiveProduct
 (
         @RequestParam(value = "pageNumber", defaultValue = AppConstant.PAGE_NUMBER, required = false) int pageNumber,
         @RequestParam(value = "pageSize", defaultValue = AppConstant.PAGE_SIZE, required = false) int pageSize,
-        @RequestParam(value = "sortBy", defaultValue = AppConstant.SORT_BY, required = false) String sortBy,
+        @RequestParam(value = "sortBy", defaultValue = AppConstant.SORT_BY_PRODUCT, required = false) String sortBy,
         @RequestParam(value = "dirBY", defaultValue = AppConstant.SORT_DIR, required = false) String sortDir
 )
 {
@@ -137,7 +140,6 @@ public ResponseEntity<PageableResponse<ProductDto>> getAllLiveProduct
 }
 
 //    search
-
     /**
      * @apiNote This Api Is use for search All the Products
      * @param subTitle
@@ -153,7 +155,7 @@ public ResponseEntity<PageableResponse<ProductDto>> getAllLiveProduct
             @PathVariable String subTitle,
             @RequestParam(value = "pageNumber", defaultValue = AppConstant.PAGE_NUMBER, required = false) int pageNumber,
             @RequestParam(value = "pageSize", defaultValue = AppConstant.PAGE_SIZE, required = false) int pageSize,
-            @RequestParam(value = "sortBy", defaultValue = AppConstant.SORT_BY, required = false) String sortBy,
+            @RequestParam(value = "sortBy", defaultValue = AppConstant.SORT_BY_PRODUCT, required = false) String sortBy,
             @RequestParam(value = "dirBY", defaultValue = AppConstant.SORT_DIR, required = false) String sortDir
     )
     {
