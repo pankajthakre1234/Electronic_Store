@@ -13,12 +13,16 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.StreamUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Date;
 
 @RestController
@@ -196,5 +200,16 @@ public ResponseEntity<PageableResponse<ProductDto>> getAllLiveProduct
     }
 
 //    serve images
+@GetMapping("/uploadimage/{productId}")
+public void serveUserImage(@PathVariable Integer productId, HttpServletResponse response) throws IOException
+{
+    logger.info("Initiate the request for serve the Category Image with userId :{}",productId);
+    ProductDto productDto = this.productService.getSingle(productId);
+
+    InputStream resource = this.fileService.getResource(imageUploadPath, productDto.getProductImage());
+    response.setContentType(MediaType.IMAGE_JPEG_VALUE);
+    StreamUtils.copy(resource,response.getOutputStream());
+    logger.info("Completed the request for serve the Category Image with userId :{}",productId);
+}
 
 }
