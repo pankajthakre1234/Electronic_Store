@@ -192,7 +192,7 @@ public ResponseEntity<PageableResponse<ProductDto>> getAllLiveProduct
      * @throws IOException
      */
     @PostMapping("/imageupload/{productId}")
-    public ResponseEntity<ImageResponse> uploadCategoryImage(@PathVariable Integer productId, @RequestParam("productImage") MultipartFile image) throws IOException
+    public ResponseEntity<ImageResponse> uploadProductImage(@PathVariable Integer productId, @RequestParam("productImage") MultipartFile image) throws IOException
     {
         logger.info("Initiate the request for Upload the Product Image with Id :{}",productId);
         String imageName = this.fileService.uploadFile(image, imagePath);

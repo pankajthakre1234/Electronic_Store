@@ -69,9 +69,10 @@ public class ProductServiceImpl implements ProductService {
         product.setStock(productDto.isStock());
         product.setProductImageName(productDto.getProductImageName());
 
+        Product saveProduct = this.repository.save(product);
 
         logger.info("Completed dao call for update the Product details with id :{}", productId);
-        return this.mapper.map(product, ProductDto.class);
+        return this.mapper.map(saveProduct, ProductDto.class);
     }
 
     /**
