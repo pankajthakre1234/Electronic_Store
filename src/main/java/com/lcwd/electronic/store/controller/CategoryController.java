@@ -190,14 +190,23 @@ public class CategoryController {
     }
 
 
+//    save products Details with categoryId
+
+    /**
+     * @apiNote This Api Is used for the save Products details with Category id
+     * @param catId
+     * @param productDto
+     * @return
+     */
     @PostMapping("/category/{catId}/products")
     public ResponseEntity<ProductDto> createWithCategory(
             @PathVariable Integer catId,
             @RequestBody ProductDto productDto
     )
     {
+        logger.info("Initiate the request for the save The Products details with Category Id with catId :{}",catId);
         ProductDto createWithcategory = this.productService.createWithCategory(productDto, catId);
-
+        logger.info("Completed the request for the save The Products details with Category Id with catId :{}",catId);
         return new ResponseEntity<>(createWithcategory,HttpStatus.CREATED);
     }
 }
