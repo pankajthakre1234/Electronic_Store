@@ -44,4 +44,7 @@ public class Product {
 
     @Column(name = "product_imageName")
     private String productImageName;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    private Category category;
 }
