@@ -178,15 +178,23 @@ public class ProductServiceImpl implements ProductService {
         return response;
     }
 
+    /**
+     * @implNote This Process is Implementing for the Save Product details With CategoryId details
+     * @param productDto
+     * @param catId
+     * @return
+     */
     @Override
     public ProductDto createWithCategory(ProductDto productDto, Integer catId)
     {
+        logger.info("Initiating dao call for The save Product details with Category details with id:{}",catId);
         Category category = this.categoryRepository.findById(catId).orElseThrow(() -> new ResourceNotFoundException("Category", "catId", catId));
 
         Product product = this.mapper.map(productDto, Product.class);
         product.setCategory(category);
+        product.setAddedDate(new Date());
         Product savedProduct = this.repository.save(product);
-
+        logger.info("Completed dao call for The save Product details with Category details with id:{}",catId);
         return this.mapper.map(savedProduct, ProductDto.class);
     }
 }

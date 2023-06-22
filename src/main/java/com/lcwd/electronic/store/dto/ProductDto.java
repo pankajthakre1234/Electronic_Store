@@ -32,5 +32,5 @@ public class ProductDto {
     @ImageNameValid
     private String productImageName;
 
-    private CategoryDto categoryDto;
+    private CategoryDto category;
 }
