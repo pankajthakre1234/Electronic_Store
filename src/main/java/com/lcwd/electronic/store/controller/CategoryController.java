@@ -1,6 +1,7 @@
 package com.lcwd.electronic.store.controller;
 
 import com.lcwd.electronic.store.dto.CategoryDto;
+import com.lcwd.electronic.store.dto.ProductDto;
 import com.lcwd.electronic.store.dto.UserDto;
 import com.lcwd.electronic.store.helper.ApiResponse;
 import com.lcwd.electronic.store.helper.AppConstant;
@@ -8,6 +9,7 @@ import com.lcwd.electronic.store.helper.ImageResponse;
 import com.lcwd.electronic.store.helper.PageableResponse;
 import com.lcwd.electronic.store.service.CategoryService;
 import com.lcwd.electronic.store.service.FileService;
+import com.lcwd.electronic.store.service.ProductService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +33,9 @@ public class CategoryController {
 
     @Autowired
     private CategoryService service;
+
+    @Autowired
+    private ProductService productService;
 
     @Autowired
     private FileService fileService;
@@ -182,5 +187,17 @@ public class CategoryController {
         response.setContentType(MediaType.IMAGE_JPEG_VALUE);
         StreamUtils.copy(resource,response.getOutputStream());
         logger.info("Completed the request for serve the Category Image with userId :{}",catId);
+    }
+
+
+    @PostMapping("/category/{catId}/products")
+    public ResponseEntity<ProductDto> createWithCategory(
+            @PathVariable Integer catId,
+            @RequestBody ProductDto productDto
+    )
+    {
+        ProductDto createWithcategory = this.productService.createWithCategory(productDto, catId);
+
+        return new ResponseEntity<>(createWithcategory,HttpStatus.CREATED);
     }
 }
