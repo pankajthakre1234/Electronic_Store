@@ -5,6 +5,7 @@ import com.lcwd.electronic.store.entity.Product;
 import com.lcwd.electronic.store.exception.ResourceNotFoundException;
 import com.lcwd.electronic.store.helper.PageableResponse;
 import com.lcwd.electronic.store.repository.ProductRepository;
+import com.lcwd.electronic.store.service.CategoryService;
 import com.lcwd.electronic.store.service.ProductService;
 import com.lcwd.electronic.store.utility.Helper;
 import org.modelmapper.ModelMapper;
@@ -26,6 +27,9 @@ public class ProductServiceImpl implements ProductService {
 
     @Autowired
     private ProductRepository repository;
+
+    @Autowired
+    private CategoryService categoryService;
 
     @Autowired
     private ModelMapper mapper;
@@ -170,5 +174,11 @@ public class ProductServiceImpl implements ProductService {
         PageableResponse<ProductDto> response = Helper.getPageableResponse(page, ProductDto.class);
         logger.info("Completed dao call for Search Product details");
         return response;
+    }
+
+    @Override
+    public ProductDto createWithCategory(ProductDto productDto, String catId)
+    {
+        return null;
     }
 }
