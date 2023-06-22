@@ -1,9 +1,11 @@
 package com.lcwd.electronic.store.service.impl;
 
 import com.lcwd.electronic.store.dto.ProductDto;
+import com.lcwd.electronic.store.entity.Category;
 import com.lcwd.electronic.store.entity.Product;
 import com.lcwd.electronic.store.exception.ResourceNotFoundException;
 import com.lcwd.electronic.store.helper.PageableResponse;
+import com.lcwd.electronic.store.repository.CategoryRepository;
 import com.lcwd.electronic.store.repository.ProductRepository;
 import com.lcwd.electronic.store.service.CategoryService;
 import com.lcwd.electronic.store.service.ProductService;
@@ -29,7 +31,7 @@ public class ProductServiceImpl implements ProductService {
     private ProductRepository repository;
 
     @Autowired
-    private CategoryService categoryService;
+    private CategoryRepository categoryRepository;
 
     @Autowired
     private ModelMapper mapper;
@@ -177,8 +179,14 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public ProductDto createWithCategory(ProductDto productDto, String catId)
+    public ProductDto createWithCategory(ProductDto productDto, Integer catId)
     {
-        return null;
+        Category category = this.categoryRepository.findById(catId).orElseThrow(() -> new ResourceNotFoundException("Category", "catId", catId));
+
+        Product product = this.mapper.map(productDto, Product.class);
+        product.setCategory(category);
+        Product savedProduct = this.repository.save(product);
+
+        return this.mapper.map(savedProduct, ProductDto.class);
     }
 }

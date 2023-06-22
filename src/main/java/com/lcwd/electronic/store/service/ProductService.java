@@ -29,7 +29,7 @@ public interface ProductService {
     PageableResponse<ProductDto> searchByTitleContaining(String subTitle,int pageNumber, int pageSize, String sortBy, String sortDir);
 
 
-    ProductDto createWithCategory(ProductDto productDto,String catId);
+    ProductDto createWithCategory(ProductDto productDto,Integer catId);
 
 }
 
