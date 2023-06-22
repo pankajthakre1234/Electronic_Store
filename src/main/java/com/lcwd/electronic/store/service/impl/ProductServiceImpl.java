@@ -67,6 +67,9 @@ public class ProductServiceImpl implements ProductService {
         product.setDiscountedPrice(productDto.getDiscountedPrice());
         product.setLive(productDto.isLive());
         product.setStock(productDto.isStock());
+        product.setProductImageName(productDto.getProductImageName());
+
+
         logger.info("Completed dao call for update the Product details with id :{}", productId);
         return this.mapper.map(product, ProductDto.class);
     }

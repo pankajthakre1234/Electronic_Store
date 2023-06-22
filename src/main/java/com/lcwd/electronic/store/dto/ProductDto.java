@@ -1,14 +1,8 @@
 package com.lcwd.electronic.store.dto;
 
+import com.lcwd.electronic.store.validate.ImageNameValid;
 import lombok.*;
 
-import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.Size;
 import java.util.Date;
 @Getter
 @Setter
@@ -35,5 +29,6 @@ public class ProductDto {
 
     private boolean stock;
 
-    private String productImage;
+    @ImageNameValid
+    private String productImageName;
 }

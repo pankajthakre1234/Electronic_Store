@@ -35,7 +35,7 @@ public class CategoryController {
     @Autowired
     private FileService fileService;
 
-    @Value("${category.image.path}")
+    @Value("${category.profile.image.path}")
     public String imageUploadPath;
 
     Logger logger= LoggerFactory.getLogger(CategoryController.class);
@@ -150,7 +150,7 @@ public class CategoryController {
      * @throws IOException
      */
     @PostMapping("/catimage/{catId}")
-    public ResponseEntity<ImageResponse> uploadCategoryImage(@PathVariable Integer catId, @RequestParam("userImage") MultipartFile image) throws IOException
+    public ResponseEntity<ImageResponse> uploadCategoryImage(@PathVariable Integer catId, @RequestParam("categoryImage") MultipartFile image) throws IOException
     {
         logger.info("Initiate the request for Upload the Category Image with catId :{}",catId);
         String imageName = this.fileService.uploadFile(image, imageUploadPath);
