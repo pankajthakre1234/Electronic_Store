@@ -139,4 +139,16 @@ public class UserServiceTest {
 
         List<UserDto> allUsers = this.userServiceI.getAllUsers();
     }
+
+//    gte Single method
+    @Test
+    public void getSingleUser_Test()
+    {
+        Integer userId= 1;
+        Mockito.when(this.userRepository.findById(Mockito.anyInt())).thenReturn(Optional.ofNullable(user));
+
+        UserDto user1 = this.userServiceI.getSingleUserById(userId);
+
+        Assertions.assertNotNull(user1);
+    }
 }
