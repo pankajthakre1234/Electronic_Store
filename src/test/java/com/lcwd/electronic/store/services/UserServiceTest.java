@@ -14,7 +14,11 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.data.domain.Sort;
 
+import java.lang.reflect.Method;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
 
 
@@ -83,6 +87,7 @@ public class UserServiceTest {
         Assertions.assertEquals(user.getName(),user1.getName());
     }
 
+
 //    delete Method
     @Test
     public void deleteUser_Test()
@@ -94,5 +99,44 @@ public class UserServiceTest {
         this.userServiceI.deleteUser(userId);
 
         Mockito.verify(userRepository,Mockito.timeout(1)).delete(user);
+    }
+
+
+//    get All Method
+    @Test
+    public void getAllUsers_Tset()
+    {
+        User user = User.builder()
+                .name("Pankaj Thakre")
+                .gender("Male")
+                .about("This is Testing Method for update User")
+                .email("pankaj@gmail.com")
+                .password("Pankaj4455")
+                .imageName("pankaj.png")
+                .build();
+
+        User user1 = User.builder()
+                .name("Shailesh Kumar")
+                .gender("Male")
+                .about("This is Testing Method for update User")
+                .email("shailesh@gmail.com")
+                .password("shailesh4")
+                .imageName("sha.png")
+                .build();
+
+        User user2 = User.builder()
+                .name("Ashish Jadhav")
+                .gender("Male")
+                .about("This is Testing Method for update User")
+                .email("Ashish@gmail.com")
+                .password("Ashish12")
+                .imageName("ashish.png")
+                .build();
+
+        List<User> allList= Arrays.asList(user,user1,user2);
+
+        Mockito.when(this.userRepository.findAll((Sort) Mockito.any())).thenReturn(allList);
+
+        List<UserDto> allUsers = this.userServiceI.getAllUsers();
     }
 }
