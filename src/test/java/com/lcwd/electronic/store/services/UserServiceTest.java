@@ -57,11 +57,28 @@ public class UserServiceTest {
         Assertions.assertNotNull(user1);
     }
 
+//    update User
     @Test
     public void updateUser_Test()
     {
+        UserDto userDto = UserDto.builder()
+                .name("Pankaj Thakre")
+                .gender("Male")
+                .about("This is Testing Method for update User")
+                .email("pankaj@gmail.com")
+                .password("Pankaj4455")
+                .imageName("pankaj.png")
+                .build();
 
         Mockito.when(this.userRepository.findById(Mockito.any())).thenReturn(Optional.ofNullable(user));
+
+        Mockito.when(this.userRepository.save(Mockito.any())).thenReturn(user);
+
+        UserDto user1 = this.userServiceI.updateUser(userDto, user.getUserId());
+
+        Assertions.assertNotNull(user1);
+
+        Assertions.assertEquals(user.getName(),user1.getName());
     }
 
 
