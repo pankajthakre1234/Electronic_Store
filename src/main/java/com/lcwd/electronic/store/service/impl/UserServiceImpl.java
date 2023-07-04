@@ -16,6 +16,11 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.NoSuchFileException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -29,6 +34,8 @@ public class UserServiceImpl implements UserServiceI {
     private ModelMapper mapper;
 
     Logger logger= LoggerFactory.getLogger(UserServiceImpl.class);
+
+    private String imagePath;
 
     /**
      * @authar Pankaj
@@ -82,7 +89,23 @@ public class UserServiceImpl implements UserServiceI {
     public void deleteUser(Integer userId)
     {
         logger.info("Initiating dao call for delete the User details with id:{}",userId);
-        User user = this.userRepository.findById(userId).orElseThrow(() -> new ResourceNotFoundException("User","userId",userId));        this.userRepository.delete(user);
+        User user = this.userRepository.findById(userId).orElseThrow(() -> new ResourceNotFoundException("User","userId",userId));
+
+        String fullPath = imagePath + user.getImageName();
+
+        try
+        {
+            Path path = Paths.get(fullPath);
+            Files.delete(path);
+        }catch (NoSuchFileException ex)
+        {
+            ex.printStackTrace();
+        }catch (IOException e)
+        {
+            e.printStackTrace();
+        }
+
+        this.userRepository.delete(user);
         logger.info("Completed dao call for delete the User details with id:{}",userId);
     }
 

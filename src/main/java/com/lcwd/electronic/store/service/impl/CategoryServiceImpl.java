@@ -17,6 +17,11 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.NoSuchFileException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -30,6 +35,8 @@ public class CategoryServiceImpl implements CategoryService {
     private ModelMapper mapper;
 
     Logger logger= LoggerFactory.getLogger(CategoryServiceImpl.class);
+
+    private String imagePath;
 
     /**
      * @Auther Pankaj
@@ -92,6 +99,21 @@ public class CategoryServiceImpl implements CategoryService {
         logger.info("Initiating dao call for Delete the category details with id :{}",catId);
 
         Category categories = this.repository.findById(catId).orElseThrow(() -> new ResourceNotFoundException("Categories", "catId", catId));
+
+        String fullPath = imagePath + categories.getCategoryImage();
+
+        try
+        {
+            Path path = Paths.get(fullPath);
+            Files.delete(path);
+        }catch (NoSuchFileException ex)
+        {
+            ex.printStackTrace();
+        }catch (IOException e)
+        {
+            e.printStackTrace();
+        }
+
         this.repository.delete(categories);
         logger.info("Completed dao call for Delete the category details with Id :{}",catId);
     }

@@ -20,6 +20,11 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.NoSuchFileException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -37,6 +42,9 @@ public class ProductServiceImpl implements ProductService {
     private ModelMapper mapper;
 
     Logger logger = LoggerFactory.getLogger(ProductServiceImpl.class);
+
+
+    private String imagePath;
 
     /**
      * @param productDto
@@ -89,6 +97,21 @@ public class ProductServiceImpl implements ProductService {
     public void delete(Integer productId) {
         logger.info("Initiating dao call for delete the Product details with id :{}", productId);
         Product product = this.repository.findById(productId).orElseThrow(() -> new ResourceNotFoundException("Product", "productId", productId));
+
+        String fullPath = imagePath + product.getProductImageName();
+
+        try
+        {
+            Path path = Paths.get(fullPath);
+            Files.delete(path);
+        }catch (NoSuchFileException ex)
+        {
+            ex.printStackTrace();
+        }catch (IOException e)
+        {
+            e.printStackTrace();
+        }
+
         logger.info("Completed dao call for delete the Product details with id :{}", productId);
         this.repository.delete(product);
     }

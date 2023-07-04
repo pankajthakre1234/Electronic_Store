@@ -2,10 +2,7 @@ package com.lcwd.electronic.store.dto;
 
 import com.lcwd.electronic.store.entity.CustomField;
 import com.lcwd.electronic.store.validate.ImageNameValid;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
@@ -19,6 +16,7 @@ import javax.validation.constraints.Size;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class UserDto extends CustomFieldDto{
 
     private Integer userId;
