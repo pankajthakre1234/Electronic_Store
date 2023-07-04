@@ -40,7 +40,7 @@ public class UserServiceTest {
                 .email("pankaj45@gmail.com")
                 .about("This is Create user Testing")
                 .gender("Male")
-                .imageName("abc.png")
+                .imageName("abc.jpg")
                 .password("pankaj12")
                 .build();
     }
@@ -70,7 +70,7 @@ public class UserServiceTest {
                 .imageName("pankaj.png")
                 .build();
 
-        Mockito.when(this.userRepository.findById(Mockito.any())).thenReturn(Optional.ofNullable(user));
+        Mockito.when(this.userRepository.findById(Mockito.anyInt())).thenReturn(Optional.ofNullable(user));
 
         Mockito.when(this.userRepository.save(Mockito.any())).thenReturn(user);
 
@@ -78,8 +78,21 @@ public class UserServiceTest {
 
         Assertions.assertNotNull(user1);
 
+        System.out.println(user1.getName());
+
         Assertions.assertEquals(user.getName(),user1.getName());
     }
 
+//    delete Method
+    @Test
+    public void deleteUser_Test()
+    {
+        Integer userId = 1;
 
+        Mockito.when(this.userRepository.findById(Mockito.anyInt())).thenReturn(Optional.ofNullable(user));
+
+        this.userServiceI.deleteUser(userId);
+
+        Mockito.verify(userRepository,Mockito.timeout(1)).delete(user);
+    }
 }
