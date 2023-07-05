@@ -36,6 +36,8 @@ public class UserServiceTest {
 
     User user;
 
+    UserDto userDto;
+
     @BeforeEach
     public void init()
     {
@@ -138,6 +140,7 @@ public class UserServiceTest {
         Mockito.when(this.userRepository.findAll((Sort) Mockito.any())).thenReturn(allList);
 
         List<UserDto> allUsers = this.userServiceI.getAllUsers();
+
     }
 
 //    gte Single method
@@ -147,8 +150,63 @@ public class UserServiceTest {
         Integer userId= 1;
         Mockito.when(this.userRepository.findById(Mockito.anyInt())).thenReturn(Optional.ofNullable(user));
 
-        UserDto user1 = this.userServiceI.getSingleUserById(userId);
+        UserDto user1 = this.userServiceI.getSingleUserById(1);
 
         Assertions.assertNotNull(user1);
+
+        Assertions.assertEquals(user.getName(),user1.getName());
+
+        System.out.println(user1);
+
+    }
+
+
+//    search User
+    @Test
+    public void searchUser_Test()
+    {
+        User user1=user = User.builder()
+                .name("Pankaj Thakre")
+                .gender("Male")
+                .about("This is Testing Method for update User")
+                .email("pankaj@gmail.com")
+                .password("Pankaj4455")
+                .imageName("pankaj.png")
+                .build();
+
+        User user2=user = User.builder()
+                .name("Vaibhav Kumar")
+                .gender("Male")
+                .about("This is Testing Method for update User")
+                .email("vaibhavK@gmail.com")
+                .password("Pankaj4455")
+                .imageName("vaibhav.png")
+                .build();
+
+        User user3=user = User.builder()
+                .name("Ashish Kumar Mishra")
+                .gender("Male")
+                .about("This is Testing Method for update User")
+                .email("ashu@gmail.com")
+                .password("ashu12")
+                .imageName("ash.png")
+                .build();
+
+        User user4=user = User.builder()
+                .name("Kartik Kumar")
+                .gender("Male")
+                .about("This is Testing Method for update User")
+                .email("kartik@gmail.com")
+                .password("kartik78")
+                .imageName("krtik.png")
+                .build();
+
+        String keyword="name";
+
+        Mockito.when(this.userRepository.findByNameContaining(keyword)).thenReturn(Arrays.asList(user1,user2,user3,user4));
+        List<UserDto> userDto = this.userServiceI.searchUser(keyword);
+        Assertions.assertNotNull(userDto);
+        System.out.println(userDto);
+        Assertions.assertEquals(4,userDto.size());
     }
 }
