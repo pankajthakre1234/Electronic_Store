@@ -50,17 +50,16 @@ public class CategoryServiceTest {
         Assertions.assertNotNull(category1);
     }
 
-//    update category
+    //    update category
     @Test
-    public void updateCategory_Test()
-    {
+    public void updateCategory_Test() {
         categoryDto = CategoryDto.builder()
                 .title("Cars")
                 .description("This is Cars Testing Update Method")
                 .categoryImage("abc.png")
                 .build();
 
-        Integer catId=1;
+        Integer catId = 1;
 
         Mockito.when(this.repository.findById(Mockito.anyInt())).thenReturn(Optional.ofNullable(category));
         Mockito.when(this.repository.save(Mockito.any())).thenReturn(category);
@@ -68,19 +67,33 @@ public class CategoryServiceTest {
 
         Assertions.assertNotNull(updateCategory);
 
-        Assertions.assertEquals(updateCategory.getTitle(),category.getTitle());
+        Assertions.assertEquals(updateCategory.getTitle(), category.getTitle());
     }
 
-//    delete category
+    //    delete category
     @Test
-    public void deleteCategory_Test()
-    {
-        Integer catId=6;
+    public void deleteCategory_Test() {
+        Integer catId = 6;
 
         Mockito.when(this.repository.findById(Mockito.anyInt())).thenReturn(Optional.of(category));
 
         this.categoryService.deleteCategory(catId);
 
-        Mockito.verify(repository,Mockito.timeout(1)).delete(category);
+        Mockito.verify(repository, Mockito.timeout(1)).delete(category);
+    }
+
+//    get Single category
+    @Test
+    public void getSingleCategory_Test()
+    {
+        Integer catId=5;
+
+        Mockito.when(this.repository.findById(Mockito.anyInt())).thenReturn(Optional.of(category));
+
+        CategoryDto category1 = this.categoryService.getSingleCategory(catId);
+
+        Assertions.assertNotNull(category1);
+
+        System.out.println(category1.getCatId());
     }
 }
