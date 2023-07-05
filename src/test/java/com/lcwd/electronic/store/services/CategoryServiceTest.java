@@ -13,6 +13,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
 
 @SpringBootTest
@@ -94,6 +96,39 @@ public class CategoryServiceTest {
 
         Assertions.assertNotNull(category1);
 
-        System.out.println(category1.getCatId());
+        System.out.println(category1.getDescription());
+    }
+
+//    get All category
+    @Test
+    public void getAllCategory_Test()
+    {
+        Category category1 = Category.builder()
+                .title("Mobiles")
+                .description("This is Mobile Testing Create Method")
+                .categoryImage("abc.png")
+                .build();
+
+        Category category2 = Category.builder()
+                .title("Cars")
+                .description("This is Luxury Cars Testing Create Method")
+                .categoryImage("cars.png")
+                .build();
+
+        Category category3=Category.builder()
+                .title("Bikes")
+                .description("This is Bikes Testing Create Method")
+                .categoryImage("bike.png")
+                .build();
+
+        List<Category> all= Arrays.asList(category1,category2,category3);
+
+        Mockito.when(this.repository.findAll()).thenReturn(all);
+
+        List<CategoryDto> allCategorys = this.categoryService.getAllCategorys();
+
+        Assertions.assertNotNull(allCategorys);
+
+        Assertions.assertEquals(3,allCategorys.size());
     }
 }
