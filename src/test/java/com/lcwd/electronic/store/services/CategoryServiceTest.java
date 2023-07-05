@@ -2,6 +2,7 @@ package com.lcwd.electronic.store.services;
 
 import com.lcwd.electronic.store.dto.CategoryDto;
 import com.lcwd.electronic.store.entity.Category;
+import com.lcwd.electronic.store.helper.PageableResponse;
 import com.lcwd.electronic.store.repository.CategoryRepository;
 import com.lcwd.electronic.store.service.CategoryService;
 import org.junit.jupiter.api.Assertions;
@@ -12,6 +13,9 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 
 import java.util.Arrays;
 import java.util.List;
@@ -130,5 +134,38 @@ public class CategoryServiceTest {
         Assertions.assertNotNull(allCategorys);
 
         Assertions.assertEquals(3,allCategorys.size());
+    }
+
+//    get All Pageable And Sorting
+    @Test
+    public void getAllPageabelCategory_Test()
+    {
+        Category category1 = Category.builder()
+                .title("Mobiles")
+                .description("This is Mobile Testing Create Method")
+                .categoryImage("abc.png")
+                .build();
+
+        Category category2 = Category.builder()
+                .title("Cars")
+                .description("This is Luxury Cars Testing Create Method")
+                .categoryImage("cars.png")
+                .build();
+
+        Category category3=Category.builder()
+                .title("Bikes")
+                .description("This is Bikes Testing Create Method")
+                .categoryImage("bike.png")
+                .build();
+
+        List<Category> all=Arrays.asList(category1,category2,category3);
+
+        Page<Category> page=new PageImpl<>(all);
+
+        Mockito.when(this.repository.findAll((Pageable) Mockito.any())).thenReturn((page));
+
+        PageableResponse<CategoryDto> allCategories = this.categoryService.getAllCategories(1, 2, "name", "Asc");
+
+        Assertions.assertEquals(3,allCategories.getContent().size());
     }
 }
