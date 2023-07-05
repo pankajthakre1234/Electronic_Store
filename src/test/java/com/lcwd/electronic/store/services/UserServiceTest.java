@@ -2,6 +2,7 @@ package com.lcwd.electronic.store.services;
 
 import com.lcwd.electronic.store.dto.UserDto;
 import com.lcwd.electronic.store.entity.User;
+import com.lcwd.electronic.store.helper.PageableResponse;
 import com.lcwd.electronic.store.repository.UserRepository;
 import com.lcwd.electronic.store.service.UserServiceI;
 import org.junit.jupiter.api.Assertions;
@@ -14,7 +15,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.*;
 
 import java.lang.reflect.Method;
 import java.util.Arrays;
@@ -209,4 +210,71 @@ public class UserServiceTest {
         System.out.println(userDto);
         Assertions.assertEquals(4,userDto.size());
     }
+
+//    get Email
+    @Test
+    public void getUserByEmail_Test()
+    {
+        String emailId="pankajthakare@gmail.com";
+
+        Mockito.when(this.userRepository.findByEmail(emailId)).thenReturn(Optional.of(user));
+
+        UserDto user1 = this.userServiceI.getUserByEmail(emailId);
+
+        System.out.println(user1.getEmail());
+        Assertions.assertEquals(user.getEmail(),user1.getEmail());
+    }
+
+//    get All By Pagging And Sorting
+//    @Test
+//    public void getAllByPagination_Test()
+//    {
+//        User user1=user = User.builder()
+//                .name("Pankaj Thakre")
+//                .gender("Male")
+//                .about("This is Testing Method for update User")
+//                .email("pankaj@gmail.com")
+//                .password("Pankaj4455")
+//                .imageName("pankaj.png")
+//                .build();
+//
+//        User user2=user = User.builder()
+//                .name("Vaibhav Kumar")
+//                .gender("Male")
+//                .about("This is Testing Method for update User")
+//                .email("vaibhavK@gmail.com")
+//                .password("Pankaj4455")
+//                .imageName("vaibhav.png")
+//                .build();
+//
+//        User user3=user = User.builder()
+//                .name("Ashish Kumar Mishra")
+//                .gender("Male")
+//                .about("This is Testing Method for update User")
+//                .email("ashu@gmail.com")
+//                .password("ashu12")
+//                .imageName("ash.png")
+//                .build();
+//
+//        User user4=user = User.builder()
+//                .name("Kartik Kumar")
+//                .gender("Male")
+//                .about("This is Testing Method for update User")
+//                .email("kartik@gmail.com")
+//                .password("kartik78")
+//                .imageName("krtik.png")
+//                .build();
+//
+//        List<User> alluser= Arrays.asList(user1,user2,user3,user4);
+//
+//        Page<User> page= new PageImpl<>(alluser);
+//
+//        Mockito.when(this.userRepository.findAll((Pageable) Mockito.any())).thenReturn(page);
+//
+//        PageableResponse<UserDto> listOfUsers = this.userServiceI.getAllUsersBySorting(2, 1, "name", "Asc");
+//
+//        Assertions.assertEquals(4,listOfUsers.getContent().size());
+//
+//        System.out.println(listOfUsers.getContent());
+//    }
 }
