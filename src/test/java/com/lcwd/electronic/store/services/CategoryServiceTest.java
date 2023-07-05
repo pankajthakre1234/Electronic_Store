@@ -70,4 +70,17 @@ public class CategoryServiceTest {
 
         Assertions.assertEquals(updateCategory.getTitle(),category.getTitle());
     }
+
+//    delete category
+    @Test
+    public void deleteCategory_Test()
+    {
+        Integer catId=6;
+
+        Mockito.when(this.repository.findById(Mockito.anyInt())).thenReturn(Optional.of(category));
+
+        this.categoryService.deleteCategory(catId);
+
+        Mockito.verify(repository,Mockito.timeout(1)).delete(category);
+    }
 }
