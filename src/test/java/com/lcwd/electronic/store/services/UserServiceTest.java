@@ -226,55 +226,55 @@ public class UserServiceTest {
     }
 
 //    get All By Pagging And Sorting
-//    @Test
-//    public void getAllByPagination_Test()
-//    {
-//        User user1=user = User.builder()
-//                .name("Pankaj Thakre")
-//                .gender("Male")
-//                .about("This is Testing Method for update User")
-//                .email("pankaj@gmail.com")
-//                .password("Pankaj4455")
-//                .imageName("pankaj.png")
-//                .build();
-//
-//        User user2=user = User.builder()
-//                .name("Vaibhav Kumar")
-//                .gender("Male")
-//                .about("This is Testing Method for update User")
-//                .email("vaibhavK@gmail.com")
-//                .password("Pankaj4455")
-//                .imageName("vaibhav.png")
-//                .build();
-//
-//        User user3=user = User.builder()
-//                .name("Ashish Kumar Mishra")
-//                .gender("Male")
-//                .about("This is Testing Method for update User")
-//                .email("ashu@gmail.com")
-//                .password("ashu12")
-//                .imageName("ash.png")
-//                .build();
-//
-//        User user4=user = User.builder()
-//                .name("Kartik Kumar")
-//                .gender("Male")
-//                .about("This is Testing Method for update User")
-//                .email("kartik@gmail.com")
-//                .password("kartik78")
-//                .imageName("krtik.png")
-//                .build();
-//
-//        List<User> alluser= Arrays.asList(user1,user2,user3,user4);
-//
-//        Page<User> page= new PageImpl<>(alluser);
-//
-//        Mockito.when(this.userRepository.findAll((Pageable) Mockito.any())).thenReturn(page);
-//
-//        PageableResponse<UserDto> listOfUsers = this.userServiceI.getAllUsersBySorting(2, 1, "name", "Asc");
-//
-//        Assertions.assertEquals(4,listOfUsers.getContent().size());
-//
-//        System.out.println(listOfUsers.getContent());
-//    }
+    @Test
+    public void getAllByPagination_Test()
+    {
+        User user1=user = User.builder()
+                .name("Pankaj Thakre")
+                .gender("Male")
+                .about("This is Testing Method for update User")
+                .email("pankaj@gmail.com")
+                .password("Pankaj4455")
+                .imageName("pankaj.png")
+                .build();
+
+        User user2=user = User.builder()
+                .name("Vaibhav Kumar")
+                .gender("Male")
+                .about("This is Testing Method for update User")
+                .email("vaibhavK@gmail.com")
+                .password("Pankaj4455")
+                .imageName("vaibhav.png")
+                .build();
+
+        User user3=user = User.builder()
+                .name("Ashish Kumar Mishra")
+                .gender("Male")
+                .about("This is Testing Method for update User")
+                .email("ashu@gmail.com")
+                .password("ashu12")
+                .imageName("ash.png")
+                .build();
+
+        User user4=user = User.builder()
+                .name("Kartik Kumar")
+                .gender("Male")
+                .about("This is Testing Method for update User")
+                .email("kartik@gmail.com")
+                .password("kartik78")
+                .imageName("krtik.png")
+                .build();
+
+        List<User> alluser= Arrays.asList(user1,user2,user3,user4);
+
+        Page<User> page= new PageImpl<>(alluser);
+
+        Mockito.when(this.userRepository.findAll((Pageable) Mockito.any())).thenReturn(page);
+
+        PageableResponse<UserDto> listOfUsers = this.userServiceI.getAllUsersBySorting(2, 1, "name", "Asc");
+
+        Assertions.assertEquals(4,listOfUsers.getContent().size());
+
+        System.out.println(listOfUsers.getContent());
+    }
 }
