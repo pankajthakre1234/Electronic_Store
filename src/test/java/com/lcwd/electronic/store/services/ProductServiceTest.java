@@ -14,6 +14,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
 import java.util.Date;
+import java.util.Optional;
 
 @SpringBootTest
 public class ProductServiceTest {
@@ -52,7 +53,31 @@ public class ProductServiceTest {
         Mockito.when(this.repository.save(Mockito.any())).thenReturn(product);
 
         ProductDto dto = this.productService.create(mapper.map(product, ProductDto.class));
-
+        System.out.println(dto.getTitle());
         Assertions.assertNotNull(dto);
+    }
+
+//    update Product
+    @Test
+    public void updateProduct_Test()
+    {
+        Integer productId=1;
+
+        ProductDto productDto = this.mapper.map(product, ProductDto.class);
+
+        Mockito.when(this.repository.findById(Mockito.anyInt())).thenReturn(Optional.ofNullable(product));
+
+        Mockito.when(this.repository.save(Mockito.any())).thenReturn(product);
+
+        ProductDto updatedProduct = this.productService.update(productDto, productId);
+
+        Assertions.assertEquals(product.getTitle(),updatedProduct.getTitle());
+    }
+
+//    get single Product
+
+    public void getSingleProduct_Test()
+    {
+
     }
 }
