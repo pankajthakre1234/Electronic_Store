@@ -62,15 +62,22 @@ public class ProductServiceTest {
     public void updateProduct_Test()
     {
         Integer productId=1;
-
-        ProductDto productDto = this.mapper.map(product, ProductDto.class);
+        ProductDto productDto = ProductDto.builder()
+                .title("Iphone 14 Pro Max")
+                .description("This Is Updated Apple Company Best Product Testing")
+                .price(140000)
+                .discountedPrice(138000)
+                .productImageName("iphone.png")
+                .quantity(50)
+                .addedDate(new Date())
+                .stock(true)
+                .live(true)
+                .build();
 
         Mockito.when(this.repository.findById(Mockito.anyInt())).thenReturn(Optional.ofNullable(product));
-
         Mockito.when(this.repository.save(Mockito.any())).thenReturn(product);
-
         ProductDto updatedProduct = this.productService.update(productDto, productId);
-
+        System.out.println(updatedProduct.getTitle());
         Assertions.assertEquals(product.getTitle(),updatedProduct.getTitle());
     }
 
@@ -78,7 +85,7 @@ public class ProductServiceTest {
     @Test
     public void getSingleProduct_Test()
     {
-        Integer productId=2;
+        Integer productId=1;
 
         Mockito.when(this.repository.findById(Mockito.anyInt())).thenReturn(Optional.ofNullable(product));
 
@@ -86,4 +93,18 @@ public class ProductServiceTest {
         System.out.println(productDto.getTitle());
         Assertions.assertNotNull(productDto);
     }
+
+//    delete Product
+    @Test
+    public void deleteProduct_Test()
+    {
+        Integer productId=6;
+        Mockito.when(this.repository.findById(Mockito.any())).thenReturn(Optional.of(product));
+
+        this.productService.delete(productId);
+
+        Mockito.verify(repository,Mockito.timeout(1)).delete(product);
+
+    }
+
 }
