@@ -75,9 +75,15 @@ public class ProductServiceTest {
     }
 
 //    get single Product
-
+    @Test
     public void getSingleProduct_Test()
     {
+        Integer productId=2;
 
+        Mockito.when(this.repository.findById(Mockito.anyInt())).thenReturn(Optional.ofNullable(product));
+
+        ProductDto productDto = this.productService.getSingle(productId);
+        System.out.println(productDto.getTitle());
+        Assertions.assertNotNull(productDto);
     }
 }
