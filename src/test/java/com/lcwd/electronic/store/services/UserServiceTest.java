@@ -35,9 +35,9 @@ public class UserServiceTest {
     @Autowired
     private ModelMapper mapper;
 
-    User user;
+    private User user;
 
-    UserDto userDto;
+    private UserDto userDto;
 
     @BeforeEach
     public void init()

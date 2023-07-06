@@ -33,9 +33,8 @@ public class CategoryServiceTest {
     @Autowired
     ModelMapper mapper;
 
-    Category category;
+    private Category category;
 
-    CategoryDto categoryDto;
 
     @BeforeEach
     public void init() {
@@ -59,13 +58,15 @@ public class CategoryServiceTest {
     //    update category
     @Test
     public void updateCategory_Test() {
-        categoryDto = CategoryDto.builder()
+        category = Category.builder()
                 .title("Cars")
                 .description("This is Cars Testing Update Method")
                 .categoryImage("abc.png")
                 .build();
 
         Integer catId = 1;
+
+        CategoryDto categoryDto = this.mapper.map(category, CategoryDto.class);
 
         Mockito.when(this.repository.findById(Mockito.anyInt())).thenReturn(Optional.ofNullable(category));
         Mockito.when(this.repository.save(Mockito.any())).thenReturn(category);
