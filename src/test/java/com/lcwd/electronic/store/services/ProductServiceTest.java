@@ -228,4 +228,53 @@ public class ProductServiceTest {
         Assertions.assertEquals(3,dto.getContent().size());
     }
 
+//    search Products
+    @Test
+    public void searchProduct_Test()
+    {
+        Product product = Product.builder()
+                .title("Iphone 14 Pro Max")
+                .description("This Is Updated Apple Company Best Product Testing")
+                .price(140000)
+                .discountedPrice(138000)
+                .productImageName("iphone.png")
+                .quantity(50)
+                .addedDate(new Date())
+                .stock(true)
+                .live(true)
+                .build();
+
+        Product product1 = Product.builder()
+                .title("Samsung S22 Ultra")
+                .description("This Is Samsung Company Best Product Testing")
+                .price(100000)
+                .discountedPrice(90000)
+                .productImageName("samsung.png")
+                .quantity(50)
+                .addedDate(new Date())
+                .stock(true)
+                .live(true)
+                .build();
+
+        Product product2 = Product.builder()
+                .title("Redmi 12 Pro 5G")
+                .description("This Is Xiaomi Company Best Product Testing")
+                .price(27000)
+                .discountedPrice(22000)
+                .productImageName("one.png")
+                .quantity(20)
+                .addedDate(new Date())
+                .stock(true)
+                .live(true)
+                .build();
+
+        String keyword="title";
+        List<Product> allProduct=Arrays.asList(product,product1,product2);
+        Page<Product> page= new PageImpl<>(allProduct);
+        Mockito.when(this.repository.findByTitleContaining(Mockito.anyString(),Mockito.any())).thenReturn(page);
+        PageableResponse<ProductDto> searched = this.productService.searchByTitleContaining(keyword, 1, 1, "title", "asc");
+
+        Assertions.assertEquals(3,searched.getContent().size());
+        Assertions.assertNotNull(searched);
+    }
 }
