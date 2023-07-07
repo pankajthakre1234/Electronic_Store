@@ -57,8 +57,10 @@ public class ProductServiceTest {
                 .addedDate(new Date())
                 .stock(true)
                 .live(true)
+                .category(category)
                 .build();
 
+        Integer catId=123;
 
         category=Category.builder()
                 .catId(123)
@@ -174,10 +176,11 @@ public class ProductServiceTest {
     public void createWithCategoryProduct_Test()
     {
         Mockito.when(this.repository.save(Mockito.any())).thenReturn(product);
-        Mockito.when(this.categoryRepository.findById(Mockito.any())).thenReturn(Optional.ofNullable(category));
+        Mockito.when(this.categoryRepository.findById(Mockito.anyInt())).thenReturn(Optional.ofNullable(category));
         ProductDto dto = this.mapper.map(product, ProductDto.class);
         Assertions.assertNotNull(dto);
-        Assertions.assertEquals(1,dto);
+        System.out.println(dto.getTitle());
+        Assertions.assertEquals("Iphone 13",dto.getTitle());
     }
 
 //    get All Live products
