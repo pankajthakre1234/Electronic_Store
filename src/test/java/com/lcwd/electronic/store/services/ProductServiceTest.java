@@ -174,15 +174,58 @@ public class ProductServiceTest {
     public void createWithCategoryProduct_Test()
     {
         Mockito.when(this.repository.save(Mockito.any())).thenReturn(product);
-
         Mockito.when(this.categoryRepository.findById(Mockito.any())).thenReturn(Optional.ofNullable(category));
-
         ProductDto dto = this.mapper.map(product, ProductDto.class);
-
         Assertions.assertNotNull(dto);
-
         Assertions.assertEquals(1,dto);
     }
 
+//    get All Live products
+    @Test
+    public void getAllAliveProduct_Test()
+    {
+        Product product = Product.builder()
+                .title("Iphone 14 Pro Max")
+                .description("This Is Updated Apple Company Best Product Testing")
+                .price(140000)
+                .discountedPrice(138000)
+                .productImageName("iphone.png")
+                .quantity(50)
+                .addedDate(new Date())
+                .stock(true)
+                .live(true)
+                .build();
+
+        Product product1 = Product.builder()
+                .title("Samsung S23 Ultra")
+                .description("This Is Samsung Company Best Product Testing")
+                .price(150000)
+                .discountedPrice(148000)
+                .productImageName("samsung.png")
+                .quantity(70)
+                .addedDate(new Date())
+                .stock(true)
+                .live(true)
+                .build();
+
+        Product product2 = Product.builder()
+                .title("One Plus 11R 5G")
+                .description("This Is One Plus Company Best Product Testing")
+                .price(100000)
+                .discountedPrice(98000)
+                .productImageName("one.png")
+                .quantity(25)
+                .addedDate(new Date())
+                .stock(true)
+                .live(true)
+                .build();
+
+        List<Product> allProduct= Arrays.asList(product,product1,product2);
+        Page<Product> page= new PageImpl<> (allProduct);
+        Mockito.when(this.repository.findByLiveTrue((Pageable) Mockito.any())).thenReturn(page);
+        PageableResponse<ProductDto> dto = this.productService.getAllLive(1, 2, "title", "asc");
+        Assertions.assertNotNull(dto);
+        Assertions.assertEquals(3,dto.getContent().size());
+    }
 
 }
