@@ -17,6 +17,9 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 
+import java.util.Arrays;
+import java.util.List;
+
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -48,15 +51,25 @@ public class UserControllerTest {
                 .build();
     }
 
+    private String convetObjectToJsonString(Object user) {
+        try {
+            return new ObjectMapper().writeValueAsString(user);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+
+            return null;
+        }
+
+    }
+
 //    create user
 
     @Test
     public void createUser_Test() throws Exception
     {
         UserDto dto = this.mapper.map(user, UserDto.class);
-
         Mockito.when(this.userService.saveUser(Mockito.any())).thenReturn(dto);
-
         this.mockMvc.perform(MockMvcRequestBuilders.post("/api/user")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(convetObjectToJsonString(user))
@@ -72,9 +85,7 @@ public class UserControllerTest {
     {
         Integer userId=12;
         UserDto userDto = this.mapper.map(user, UserDto.class);
-
         Mockito.when(this.userService.updateUser(Mockito.any(),Mockito.anyInt())).thenReturn(userDto);
-
         this.mockMvc.perform(MockMvcRequestBuilders.put("/api/"+userId)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(convetObjectToJsonString(user))
@@ -84,17 +95,25 @@ public class UserControllerTest {
                 .andExpect(jsonPath("$.name").exists());
     }
 
+//    get All users
+    @Test
+    public void getAllUsers_Test() throws Exception
+    {
+        UserDto userDto = this.mapper.map(user, UserDto.class);
+        UserDto userDto1 = UserDto.builder().name("Pankaj").email("pankajthakre@gmail.com").gender("male").password("pankaj1").about("This testing is for get All users").build();
+        UserDto userDto2 = UserDto.builder().name("Ashish").email("ashish@gmail.com").gender("male").password("ashsih").about("This testing is for get All users").build();
+        UserDto userDto3 = UserDto.builder().name("Amrut").email("amrut@gmail.com").gender("male").password("amrutt").about("This testing is for get All users").build();
+        UserDto userDto4 = UserDto.builder().name("Ramesh").email("ramesh@gmail.com").gender("male").password("ramesh").about("This testing is for get All users").build();
 
+        List<UserDto> userList=Arrays.asList(userDto1,userDto2,userDto3,userDto4);
+        Mockito.when(this.userService.getAllUsers()).thenReturn(userList);
 
-    private String convetObjectToJsonString(Object user) {
-        try {
-            return new ObjectMapper().writeValueAsString(user);
-
-        } catch (Exception e) {
-            e.printStackTrace();
-
-            return null;
-        }
-
+        this.mockMvc.perform(MockMvcRequestBuilders.get("/api/users")
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isOk());
     }
+
+
 }
