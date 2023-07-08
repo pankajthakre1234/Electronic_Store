@@ -66,6 +66,26 @@ public class UserControllerTest {
                 .andExpect(jsonPath("$.name").exists());
     }
 
+//    update user
+    @Test
+    public void updateUser_Test() throws Exception
+    {
+        Integer userId=12;
+        UserDto userDto = this.mapper.map(user, UserDto.class);
+
+        Mockito.when(this.userService.updateUser(Mockito.any(),Mockito.anyInt())).thenReturn(userDto);
+
+        this.mockMvc.perform(MockMvcRequestBuilders.put("/api/"+userId)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(convetObjectToJsonString(user))
+                .contentType(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.name").exists());
+    }
+
+
+
     private String convetObjectToJsonString(Object user) {
         try {
             return new ObjectMapper().writeValueAsString(user);
