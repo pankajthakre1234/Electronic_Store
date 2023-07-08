@@ -215,6 +215,7 @@ public class ProductServiceImpl implements ProductService {
         Category category = this.categoryRepository.findById(catId).orElseThrow(() -> new ResourceNotFoundException("Category", "catId", catId));
 
         Product product = this.mapper.map(productDto, Product.class);
+
         product.setCategory(category);
         product.setAddedDate(new Date());
         Product savedProduct = this.repository.save(product);

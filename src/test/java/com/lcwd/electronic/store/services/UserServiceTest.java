@@ -4,20 +4,17 @@ import com.lcwd.electronic.store.dto.UserDto;
 import com.lcwd.electronic.store.entity.User;
 import com.lcwd.electronic.store.helper.PageableResponse;
 import com.lcwd.electronic.store.repository.UserRepository;
-import com.lcwd.electronic.store.service.UserServiceI;
+import com.lcwd.electronic.store.service.UserService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
 import org.mockito.Mockito;
-import org.mockito.stubbing.OngoingStubbing;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.domain.*;
 
-import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -30,7 +27,7 @@ public class UserServiceTest {
     private UserRepository userRepository;
 
     @Autowired
-    private UserServiceI userServiceI;
+    private UserService userService;
 
     @Autowired
     private ModelMapper mapper;
@@ -59,7 +56,7 @@ public class UserServiceTest {
     {
          Mockito.when(this.userRepository.save(Mockito.any())).thenReturn(user);
 
-        UserDto user1 = this.userServiceI.saveUser(mapper.map(user, UserDto.class));
+        UserDto user1 = this.userService.saveUser(mapper.map(user, UserDto.class));
 
         Assertions.assertNotNull(user1);
     }
@@ -81,7 +78,7 @@ public class UserServiceTest {
 
         Mockito.when(this.userRepository.save(Mockito.any())).thenReturn(user);
 
-        UserDto user1 = this.userServiceI.updateUser(userDto, user.getUserId());
+        UserDto user1 = this.userService.updateUser(userDto, user.getUserId());
 
         Assertions.assertNotNull(user1);
 
@@ -99,7 +96,7 @@ public class UserServiceTest {
 
         Mockito.when(this.userRepository.findById(Mockito.anyInt())).thenReturn(Optional.ofNullable(user));
 
-        this.userServiceI.deleteUser(userId);
+        this.userService.deleteUser(userId);
 
         Mockito.verify(userRepository,Mockito.timeout(1)).delete(user);
     }
@@ -140,7 +137,7 @@ public class UserServiceTest {
 
         Mockito.when(this.userRepository.findAll((Sort) Mockito.any())).thenReturn(allList);
 
-        List<UserDto> allUsers = this.userServiceI.getAllUsers();
+        List<UserDto> allUsers = this.userService.getAllUsers();
 
     }
 
@@ -151,7 +148,7 @@ public class UserServiceTest {
         Integer userId= 1;
         Mockito.when(this.userRepository.findById(Mockito.anyInt())).thenReturn(Optional.ofNullable(user));
 
-        UserDto user1 = this.userServiceI.getSingleUserById(1);
+        UserDto user1 = this.userService.getSingleUserById(1);
 
         Assertions.assertNotNull(user1);
 
@@ -205,7 +202,7 @@ public class UserServiceTest {
         String keyword="name";
 
         Mockito.when(this.userRepository.findByNameContaining(keyword)).thenReturn(Arrays.asList(user1,user2,user3,user4));
-        List<UserDto> userDto = this.userServiceI.searchUser(keyword);
+        List<UserDto> userDto = this.userService.searchUser(keyword);
         Assertions.assertNotNull(userDto);
         System.out.println(userDto);
         Assertions.assertEquals(4,userDto.size());
@@ -219,7 +216,7 @@ public class UserServiceTest {
 
         Mockito.when(this.userRepository.findByEmail(emailId)).thenReturn(Optional.of(user));
 
-        UserDto user1 = this.userServiceI.getUserByEmail(emailId);
+        UserDto user1 = this.userService.getUserByEmail(emailId);
 
         System.out.println(user1.getEmail());
         Assertions.assertEquals(user.getEmail(),user1.getEmail());
@@ -271,7 +268,7 @@ public class UserServiceTest {
 
         Mockito.when(this.userRepository.findAll((Pageable) Mockito.any())).thenReturn(page);
 
-        PageableResponse<UserDto> listOfUsers = this.userServiceI.getAllUsersBySorting(2, 1, "name", "Asc");
+        PageableResponse<UserDto> listOfUsers = this.userService.getAllUsersBySorting(2, 1, "name", "Asc");
 
         Assertions.assertEquals(4,listOfUsers.getContent().size());
 

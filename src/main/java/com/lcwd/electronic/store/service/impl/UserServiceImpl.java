@@ -5,7 +5,7 @@ import com.lcwd.electronic.store.entity.User;
 import com.lcwd.electronic.store.exception.ResourceNotFoundException;
 import com.lcwd.electronic.store.helper.PageableResponse;
 import com.lcwd.electronic.store.repository.UserRepository;
-import com.lcwd.electronic.store.service.UserServiceI;
+import com.lcwd.electronic.store.service.UserService;
 import com.lcwd.electronic.store.utility.Helper;
 import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
@@ -26,7 +26,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-public class UserServiceImpl implements UserServiceI {
+public class UserServiceImpl implements UserService {
 
     @Autowired
     private UserRepository userRepository;

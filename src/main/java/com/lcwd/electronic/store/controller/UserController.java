@@ -6,7 +6,7 @@ import com.lcwd.electronic.store.helper.AppConstant;
 import com.lcwd.electronic.store.helper.ImageResponse;
 import com.lcwd.electronic.store.helper.PageableResponse;
 import com.lcwd.electronic.store.service.FileService;
-import com.lcwd.electronic.store.service.UserServiceI;
+import com.lcwd.electronic.store.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +20,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
@@ -30,7 +29,7 @@ import java.util.List;
 public class UserController {
 
     @Autowired
-    private UserServiceI userServiceI;
+    private UserService userService;
 
     @Autowired
     private FileService fileService;
@@ -51,7 +50,7 @@ public class UserController {
     @PostMapping("/user")
     public ResponseEntity<UserDto> createUser(@Valid @RequestBody UserDto userDto) {
         logger.info("Initiate the request for Save the User Details");
-        UserDto userDto1 = this.userServiceI.saveUser(userDto);
+        UserDto userDto1 = this.userService.saveUser(userDto);
         logger.info("Completed the request for Save the User Details");
         return new ResponseEntity<>(userDto1, HttpStatus.CREATED);
     }
@@ -67,7 +66,7 @@ public class UserController {
     @PutMapping("/{userId}")
     public ResponseEntity<UserDto> updateUser(@Valid @RequestBody UserDto userDto, @PathVariable Integer userId) {
         logger.info("Initiate the request for Update the User Details with userId :{}",userId);
-        UserDto userDto1 = this.userServiceI.updateUser(userDto, userId);
+        UserDto userDto1 = this.userService.updateUser(userDto, userId);
         logger.info("Completed the request for Update the User Details with userId:{}",userId);
         return new ResponseEntity<>(userDto1, HttpStatus.OK);
     }
@@ -82,7 +81,7 @@ public class UserController {
     @GetMapping("/{userId}")
     public ResponseEntity<UserDto> getSingleUser(@PathVariable Integer userId) {
         logger.info("Initiate the request for Get the Single User Details with userId :{}",userId);
-        UserDto userById = this.userServiceI.getSingleUserById(userId);
+        UserDto userById = this.userService.getSingleUserById(userId);
         logger.info("Completed the request for Get the Single User Details with userId :{}",userId);
         return new ResponseEntity<>(userById, HttpStatus.OK);
     }
@@ -96,7 +95,7 @@ public class UserController {
     @GetMapping("/users")
     public ResponseEntity<List<UserDto>> getAllUser() {
         logger.info("Initiate the request for Get the All User Details");
-        List<UserDto> allUsers = this.userServiceI.getAllUsers();
+        List<UserDto> allUsers = this.userService.getAllUsers();
         logger.info("Completed the request for Get the All User Details");
         return new ResponseEntity<>(allUsers, HttpStatus.OK);
     }
@@ -112,7 +111,7 @@ public class UserController {
     public ResponseEntity<ApiResponse> deleteUser(@PathVariable Integer userId) {
         logger.info("Initiate the request for Delete the User Details with userId :{}",userId);
 
-        this.userServiceI.deleteUser(userId);
+        this.userService.deleteUser(userId);
         logger.info("Completed the request for Delete the User Details  with userId :{}",userId);
         return new ResponseEntity(new ApiResponse(AppConstant.USER_DELETE, false), HttpStatus.OK);
     }
@@ -127,7 +126,7 @@ public class UserController {
     @GetMapping("/user/{email}")
     public ResponseEntity<UserDto> getUserByEmail(@PathVariable String email) {
         logger.info("Initiate the request for Get the User By Email :{}",email);
-        UserDto userByEmail = this.userServiceI.getUserByEmail(email);
+        UserDto userByEmail = this.userService.getUserByEmail(email);
         logger.info("Completed the request for Get the User By Email :{}",email);
         return new ResponseEntity<>(userByEmail, HttpStatus.OK);
     }
@@ -142,7 +141,7 @@ public class UserController {
     @GetMapping("/{keyword}")
     public ResponseEntity<List<UserDto>> searchUser(@PathVariable String keyword) {
         logger.info("Initiate the request for the Search User By Keyword");
-        List<UserDto> userDto = this.userServiceI.searchUser(keyword);
+        List<UserDto> userDto = this.userService.searchUser(keyword);
         logger.info("Completed the request for the Search User By Keyword");
         return new ResponseEntity<>(userDto, HttpStatus.OK);
     }
@@ -164,7 +163,7 @@ public class UserController {
             @RequestParam(value = "sortBy", defaultValue = AppConstant.SORT_BY, required = false) String sortBy,
             @RequestParam(value = "dirBY", defaultValue = AppConstant.SORT_DIR, required = false) String sortDir) {
         logger.info("Initiate the request for Get the All User Details by Sorting and Pagging");
-        PageableResponse<UserDto> users = this.userServiceI.getAllUsersBySorting(pageNumber, pageSize, sortBy, sortDir);
+        PageableResponse<UserDto> users = this.userService.getAllUsersBySorting(pageNumber, pageSize, sortBy, sortDir);
         logger.info("Completed the request for Get the All User Details by Sorting and Pagging");
         return new ResponseEntity<PageableResponse<UserDto>>(users, HttpStatus.OK);
     }
@@ -184,10 +183,10 @@ public class UserController {
         logger.info("Initiate the request for Upload the User Image with userId :{}",userId);
         String imageName = this.fileService.uploadFile(image, imageUploadPath);
 
-        UserDto user = this.userServiceI.getSingleUserById(userId);
+        UserDto user = this.userService.getSingleUserById(userId);
         user.setImageName(imageName);
 
-        UserDto userDto = this.userServiceI.updateUser(user, userId);
+        UserDto userDto = this.userService.updateUser(user, userId);
 
         ImageResponse imageResponse = ImageResponse.builder().message(AppConstant.IMAGE_UPLOADED).imageName(imageName).success(true).build();
         logger.info("Completed the request for Upload the User Image with userId :{}",userId);
@@ -206,7 +205,7 @@ public class UserController {
     public void serveUserImage(@PathVariable Integer userId, HttpServletResponse response) throws IOException
     {
         logger.info("Initiate the request for serve the User Image with userId :{}",userId);
-        UserDto user = this.userServiceI.getSingleUserById(userId);
+        UserDto user = this.userService.getSingleUserById(userId);
 
         InputStream resource = this.fileService.getResource(imageUploadPath, user.getImageName());
         response.setContentType(MediaType.IMAGE_JPEG_VALUE);

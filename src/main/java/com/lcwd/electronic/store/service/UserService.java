@@ -5,7 +5,7 @@ import com.lcwd.electronic.store.helper.PageableResponse;
 
 import java.util.List;
 
-public interface UserServiceI {
+public interface UserService {
 
     //create user
      UserDto saveUser(UserDto userDto);
