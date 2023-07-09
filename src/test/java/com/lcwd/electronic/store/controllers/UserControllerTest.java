@@ -115,5 +115,21 @@ public class UserControllerTest {
                 .andExpect(status().isOk());
     }
 
+//    get Single User
+
+    @Test
+    public void getSingleUser_Test() throws Exception
+    {
+        Integer userId=2;
+
+        UserDto userDto = this.mapper.map(user, UserDto.class);
+
+        Mockito.when(this.userService.getSingleUserById(Mockito.any())).thenReturn(userDto);
+        this.mockMvc.perform(MockMvcRequestBuilders.get("/api/user/"+userId)
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isOk());
+    }
 
 }
