@@ -146,4 +146,23 @@ public class UserControllerTest {
                 .andDo(print())
                 .andExpect(status().isOk());
     }
+
+//    search user
+    @Test
+    public void searchUser_Test() throws Exception
+    {
+        UserDto userDto1 = UserDto.builder().name("Pankaj").email("pankajthakre@gmail.com").gender("male").password("pankaj1").about("This testing is for get All users").build();
+        UserDto userDto2 = UserDto.builder().name("Ashish").email("ashish@gmail.com").gender("male").password("ashish").about("This testing is for get All users").build();
+        UserDto userDto3 = UserDto.builder().name("Amrut").email("amrut@gmail.com").gender("male").password("amrutt").about("This testing is for get All users").build();
+        UserDto userDto4 = UserDto.builder().name("Ramesh").email("ramesh@gmail.com").gender("male").password("ramesh").about("This testing is for get All users").build();
+
+        List<UserDto> allUsers=Arrays.asList(userDto1,userDto2,userDto3,userDto4);
+        String keyword="Pankaj";
+        Mockito.when(this.userService.searchUser(Mockito.anyString())).thenReturn(allUsers);
+        this.mockMvc.perform(MockMvcRequestBuilders.get("/api/search/"+keyword)
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isOk());
+    }
 }

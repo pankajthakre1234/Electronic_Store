@@ -166,7 +166,7 @@ public ResponseEntity<PageableResponse<ProductDto>> getAllLiveProduct
      * @param sortDir
      * @return
      */
-    @GetMapping("/search/{subTitle}")
+    @GetMapping("/searchproduct/{subTitle}")
     public  ResponseEntity<PageableResponse<ProductDto>> searchProduct
     (
             @PathVariable String subTitle,

@@ -138,7 +138,7 @@ public class UserController {
      * @return
      * @apiNote This Api Is Use For The Search User By Keyword
      */
-    @GetMapping("/{keyword}")
+    @GetMapping("/search/{keyword}")
     public ResponseEntity<List<UserDto>> searchUser(@PathVariable String keyword) {
         logger.info("Initiate the request for the Search User By Keyword");
         List<UserDto> userDto = this.userService.searchUser(keyword);
