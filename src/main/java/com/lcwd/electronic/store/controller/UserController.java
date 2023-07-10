@@ -40,7 +40,6 @@ public class UserController {
     Logger logger = LoggerFactory.getLogger(UserController.class);
 
 //     create User
-
     /**
      * @Author Pankaj
      * @param userDto
@@ -56,7 +55,6 @@ public class UserController {
     }
 
 //    update user detail
-
     /**
      * @param userDto
      * @param userId
@@ -72,7 +70,6 @@ public class UserController {
     }
 
 //    get Single Users details
-
     /**
      * @param userId
      * @return
@@ -87,7 +84,6 @@ public class UserController {
     }
 
 //    get All users Details
-
     /**
      * @return
      * @apiNote This Api Is Use For The Get All Users Details
@@ -101,7 +97,6 @@ public class UserController {
     }
 
 //    delete user Details
-
     /**
      * @param userId
      * @return
@@ -117,7 +112,6 @@ public class UserController {
     }
 
 //    get User By email
-
     /**
      * @param email
      * @return
@@ -132,7 +126,6 @@ public class UserController {
     }
 
 //    get user searching
-
     /**
      * @param keyword
      * @return
@@ -147,7 +140,6 @@ public class UserController {
     }
 
 //    get all Users by Pagination and Sorting
-
     /**
      * @param pageNumber
      * @param pageSize
@@ -169,7 +161,6 @@ public class UserController {
     }
 
     //    upload user image
-
     /**
      * @apiNote This Api is Use for the Upload The Image
      * @param userId
@@ -194,7 +185,6 @@ public class UserController {
     }
 
 //    serve user image
-
     /**
      * @apiNote This Api is Use for the serve the Image
      * @param userId

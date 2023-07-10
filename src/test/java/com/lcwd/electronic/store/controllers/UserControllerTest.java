@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.lcwd.electronic.store.dto.UserDto;
 import com.lcwd.electronic.store.entity.User;
 import com.lcwd.electronic.store.helper.ApiResponse;
+import com.lcwd.electronic.store.helper.PageableResponse;
 import com.lcwd.electronic.store.service.UserService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -14,6 +15,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
@@ -165,4 +168,30 @@ public class UserControllerTest {
                 .andDo(print())
                 .andExpect(status().isOk());
     }
+
+    //    get all users
+    @Test
+    public void getAllUsersByPaginationAndSorting_Test() throws Exception
+    {
+        UserDto userDto = UserDto.builder().name("Pankaj").email("pankajthakre@gmail.com").gender("male").password("pankaj1").about("This testing is for get All users").build();
+        UserDto userDto1= UserDto.builder().name("Ashish").email("ashish@gmail.com").gender("male").password("ashish").about("This testing is for get All users").build();
+        UserDto userDto2 = UserDto.builder().name("Amrut").email("amrut@gmail.com").gender("male").password("amrutt").about("This testing is for get All users").build();
+        UserDto userDto3 = UserDto.builder().name("Ramesh").email("ramesh@gmail.com").gender("male").password("ramesh").about("This testing is for get All users").build();
+
+        PageableResponse<UserDto> pageableResponse= new PageableResponse<>();
+        pageableResponse.setContent(Arrays.asList(userDto,userDto1,userDto2,userDto3));
+        pageableResponse.setPageSize(10);
+        pageableResponse.setPageNumber(5);
+        pageableResponse.setTotalPages(100);
+        pageableResponse.setLastPage(false);
+        pageableResponse.setTotalElements(10000l);
+
+        Mockito.when(this.userService.getAllUsersBySorting(Mockito.anyInt(),Mockito.anyInt(),Mockito.anyString(),Mockito.anyString())).thenReturn(pageableResponse);
+        this.mockMvc.perform(MockMvcRequestBuilders.get("/api/users")
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isOk());
+    }
 }
+
