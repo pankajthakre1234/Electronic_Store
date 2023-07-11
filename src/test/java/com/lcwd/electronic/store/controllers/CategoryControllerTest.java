@@ -2,7 +2,9 @@ package com.lcwd.electronic.store.controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.lcwd.electronic.store.dto.CategoryDto;
+import com.lcwd.electronic.store.dto.UserDto;
 import com.lcwd.electronic.store.entity.Category;
+import com.lcwd.electronic.store.helper.PageableResponse;
 import com.lcwd.electronic.store.service.CategoryService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -125,10 +127,44 @@ public class CategoryControllerTest
     }
 
 
+////    delete category
+//    @Test
+//    public void deleteCategory_Test() throws Exception
+//    {
+//        Integer catId=10;
+//        CategoryDto categoryDto = this.mapper.map(category, CategoryDto.class);
+//        Mockito.doNothing().when(this.categoryService).deleteCategory(10);
+//        Mockito.verify(categoryService,Mockito.timeout(1)).deleteCategory(Mockito.anyInt());
+//        this.mockMvc.perform(MockMvcRequestBuilders.delete("/api/cat/"+catId)
+//                .contentType(MediaType.APPLICATION_JSON)
+//                .contentType(MediaType.APPLICATION_JSON))
+//                .andDo(print())
+//                .andExpect(status().isOk());
+//    }
 
+//get All by Pagination and Sorting
+    @Test
+    public void getAllBYPagingAndSorting_Test() throws Exception
+    {
+        CategoryDto category1= CategoryDto.builder().title("Electronics").description("This is All electronics category Testing").categoryImage("ele.png").build();
+        CategoryDto category2= CategoryDto.builder().title("Vehicle").description("This is All Vehicle category Testing").categoryImage("ele.png").build();
+        CategoryDto category3= CategoryDto.builder().title("Mobiles").description("This is All Mobiles category Testing").categoryImage("ele.png").build();
 
+        PageableResponse<CategoryDto> response=new PageableResponse<>();
+        response.setContent(Arrays.asList(category1, category2, category3));
+        response.setPageSize(10);
+        response.setPageNumber(100);
+        response.setTotalPages(200);
+        response.setLastPage(false);
+        response.setTotalElements(10000l);
+        Mockito.when(this.categoryService.getAllCategories(Mockito.anyInt(),Mockito.anyInt(),Mockito.anyString(),Mockito.anyString())).thenReturn(response);
 
-
+        this.mockMvc.perform(MockMvcRequestBuilders.get("/api/allcategorys")
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isOk());
+    }
 
 
 }
