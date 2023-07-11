@@ -17,6 +17,9 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 
+import java.util.Arrays;
+import java.util.List;
+
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -103,5 +106,29 @@ public class CategoryControllerTest
                 .andDo(print())
                 .andExpect(status().isOk());
     }
+
+//    get all category
+    @Test
+    public void getAllCategory_Test() throws Exception
+    {
+        CategoryDto category1= CategoryDto.builder().title("Electronics").description("This is All electronics category Testing").categoryImage("ele.png").build();
+        CategoryDto category2= CategoryDto.builder().title("Vehicle").description("This is All Vehicle category Testing").categoryImage("ele.png").build();
+        CategoryDto category3= CategoryDto.builder().title("Mobiles").description("This is All Mobiles category Testing").categoryImage("ele.png").build();
+
+        List<CategoryDto> dtoList = Arrays.asList(category1, category2, category3);
+        Mockito.when(this.categoryService.getAllCategorys()).thenReturn(dtoList);
+        this.mockMvc.perform(MockMvcRequestBuilders.get("/api/categorys")
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isOk());
+    }
+
+
+
+
+
+
+
 
 }
