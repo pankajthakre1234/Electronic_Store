@@ -46,9 +46,9 @@ public class CategoryControllerTest
                 .build();
     }
 
-    private String convetObjectToJsonString(Object user) throws Exception {
+    private String convetObjectToJsonString(Object category) throws Exception {
         try {
-            return new ObjectMapper().writeValueAsString(user);
+            return new ObjectMapper().writeValueAsString(category);
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -71,12 +71,23 @@ public class CategoryControllerTest
                 .andExpect(jsonPath("$.title").exists());
     }
 
+//    update category
+    @Test
+    public void updateCategory_Test() throws Exception
+    {
+        Integer catId=1;
+        CategoryDto dto = this.mapper.map(category, CategoryDto.class);
 
+        Mockito.when(this.categoryService.updateCategory(Mockito.any(),Mockito.anyInt())).thenReturn(dto);
 
-
-
-
-
+        this.mockMvc.perform(MockMvcRequestBuilders.put("/api/cat/"+catId)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(convetObjectToJsonString(category))
+                .contentType(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.title").exists());
+    }
 
 
 
