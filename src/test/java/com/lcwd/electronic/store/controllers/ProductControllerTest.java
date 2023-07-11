@@ -92,6 +92,20 @@ public class ProductControllerTest
                 .andExpect(jsonPath("$.title").exists());
     }
 
+//    delete Product
+    @Test
+    public void deleteProduct_Test() throws Exception
+    {
+        Integer productId=5;
+        this.productService.delete(productId);
+        this.mockMvc.perform(MockMvcRequestBuilders.delete("/api/product/"+productId)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(convetObjectToJsonString(product))
+                .contentType(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isOk());
+
+    }
 
 
 
