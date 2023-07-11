@@ -3,6 +3,7 @@ package com.lcwd.electronic.store.controllers;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.lcwd.electronic.store.dto.ProductDto;
 import com.lcwd.electronic.store.entity.Product;
+import com.lcwd.electronic.store.helper.PageableResponse;
 import com.lcwd.electronic.store.service.ProductService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -12,9 +13,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+
+import java.util.Arrays;
+import java.util.List;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -123,8 +129,29 @@ public class ProductControllerTest
 
 
 
+//get All Products
+    @Test
+    public void getAllProduct_Test() throws Exception
+    {
+        ProductDto productDto=ProductDto.builder().title("Iphone 13").description("This is Apple Company products").price(70000).discountedPrice(65000).live(true).stock(true).build();
+        ProductDto productDto1=ProductDto.builder().title("Samsung s23 Ultra").description("This is Samsung Company products").price(95000).discountedPrice(93500).live(true).stock(true).build();
+        ProductDto productDto2=ProductDto.builder().title("Redmi 12 pro 5G").description("This is Xiaomi Company products").price(26000).discountedPrice(24000).live(true).stock(true).build();
+        ProductDto productDto3=ProductDto.builder().title("One Plus 11R 5G").description("This is One Plus Company products").price(40000).discountedPrice(37500).live(true).stock(true).build();
 
-
+        PageableResponse<ProductDto> page=new PageableResponse<>();
+        page.setContent(Arrays.asList(productDto,productDto1,productDto2,productDto3));
+        page.setPageSize(20);
+        page.setTotalPages(100);
+        page.setLastPage(false);
+        page.setTotalElements(100000l);
+        page.setPageNumber(2);
+        Mockito.when(this.productService.getAll(Mockito.anyInt(),Mockito.anyInt(),Mockito.anyString(),Mockito.anyString())).thenReturn(page);
+        this.mockMvc.perform(MockMvcRequestBuilders.get("/api/products")
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isOk());
+    }
 
 
 
