@@ -107,8 +107,19 @@ public class ProductControllerTest
 
     }
 
-
-
+//    get Single Product
+    @Test
+    public void getSingleProduct_Test() throws Exception
+    {
+        Integer productId=2;
+        ProductDto dto = this.mapper.map(product, ProductDto.class);
+        Mockito.when(this.productService.getSingle(Mockito.anyInt())).thenReturn(dto);
+        this.mockMvc.perform(MockMvcRequestBuilders.get("/api/product/"+productId)
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isOk());
+    }
 
 
 
