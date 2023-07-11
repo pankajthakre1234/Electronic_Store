@@ -4,21 +4,27 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.lcwd.electronic.store.dto.CategoryDto;
 import com.lcwd.electronic.store.dto.UserDto;
 import com.lcwd.electronic.store.entity.Category;
+import com.lcwd.electronic.store.helper.ImageResponse;
 import com.lcwd.electronic.store.helper.PageableResponse;
 import com.lcwd.electronic.store.service.CategoryService;
+import com.lcwd.electronic.store.service.FileService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.web.multipart.MultipartFile;
 
 
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
@@ -33,6 +39,9 @@ public class CategoryControllerTest
     @MockBean
     private CategoryService categoryService;
 
+    @MockBean
+    private FileService fileService;
+
     @Autowired
     private ModelMapper mapper;
 
@@ -41,11 +50,14 @@ public class CategoryControllerTest
 
     private Category category;
 
+    @Value("${category.profile.image.path}")
+    public String imageUploadPath;
+
     @BeforeEach
     public void init()
     {
          category= Category.builder()
-                .title("Mobile")
+                .title("Electronics")
                 .description("This is Category module testing")
                 .categoryImage("image.png")
                 .build();
@@ -115,7 +127,7 @@ public class CategoryControllerTest
     {
         CategoryDto category1= CategoryDto.builder().title("Electronics").description("This is All electronics category Testing").categoryImage("ele.png").build();
         CategoryDto category2= CategoryDto.builder().title("Vehicle").description("This is All Vehicle category Testing").categoryImage("ele.png").build();
-        CategoryDto category3= CategoryDto.builder().title("Mobiles").description("This is All Mobiles category Testing").categoryImage("ele.png").build();
+        CategoryDto category3= CategoryDto.builder().title("Airplane").description("This is All Airplane category Testing").categoryImage("ele.png").build();
 
         List<CategoryDto> dtoList = Arrays.asList(category1, category2, category3);
         Mockito.when(this.categoryService.getAllCategorys()).thenReturn(dtoList);
@@ -164,11 +176,6 @@ public class CategoryControllerTest
                 .andExpect(status().isOk());
     }
 
-
-
-
-
-
-
+//    upload image
 
 }
