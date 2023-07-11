@@ -146,6 +146,22 @@ public class UserControllerTest {
                 .andExpect(status().isOk());
     }
 
+
+//    delete user
+    @Test
+    public void deleteUser_Test() throws Exception
+    {
+        Integer userId=20;
+        this.userService.deleteUser(userId);
+        this.mockMvc.perform(MockMvcRequestBuilders.delete("/api/"+userId)
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isOk());
+
+    }
+
+
     //   get user BYEmail
     @Test
     public void getUserByEmail_Test() throws Exception {
