@@ -127,20 +127,18 @@ public class CategoryControllerTest
     }
 
 
-////    delete category
-//    @Test
-//    public void deleteCategory_Test() throws Exception
-//    {
-//        Integer catId=10;
-//        CategoryDto categoryDto = this.mapper.map(category, CategoryDto.class);
-//        Mockito.doNothing().when(this.categoryService).deleteCategory(10);
-//        Mockito.verify(categoryService,Mockito.timeout(1)).deleteCategory(Mockito.anyInt());
-//        this.mockMvc.perform(MockMvcRequestBuilders.delete("/api/cat/"+catId)
-//                .contentType(MediaType.APPLICATION_JSON)
-//                .contentType(MediaType.APPLICATION_JSON))
-//                .andDo(print())
-//                .andExpect(status().isOk());
-//    }
+//    delete category
+    @Test
+    public void deleteCategory_Test() throws Exception
+    {
+        Integer catId=10;
+        this.categoryService.deleteCategory(catId);
+        this.mockMvc.perform(MockMvcRequestBuilders.delete("/api/cat/"+catId)
+                .contentType(MediaType.APPLICATION_JSON)
+                .contentType(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isOk());
+    }
 
 //get All by Pagination and Sorting
     @Test
@@ -165,6 +163,12 @@ public class CategoryControllerTest
                 .andDo(print())
                 .andExpect(status().isOk());
     }
+
+
+
+
+
+
 
 
 }
