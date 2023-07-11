@@ -89,6 +89,19 @@ public class CategoryControllerTest
                 .andExpect(jsonPath("$.title").exists());
     }
 
+//    get single Category
+    @Test
+    public void getSingleCategory_Test() throws Exception {
+        CategoryDto dto = this.mapper.map(category, CategoryDto.class);
+        Integer catId=12;
 
+        Mockito.when(this.categoryService.getSingleCategory(Mockito.anyInt())).thenReturn(dto);
+
+        this.mockMvc.perform(MockMvcRequestBuilders.get("/api/cat/"+catId)
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isOk());
+    }
 
 }
