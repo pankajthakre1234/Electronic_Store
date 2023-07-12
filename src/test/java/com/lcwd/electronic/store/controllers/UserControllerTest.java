@@ -111,6 +111,22 @@ public class UserControllerTest {
                 .andExpect(jsonPath("$.name").exists());
     }
 
+    //    get Single User
+    @Test
+    public void getSingleUser_Test() throws Exception {
+        Integer userId = 2;
+
+        UserDto userDto = this.mapper.map(user, UserDto.class);
+
+        Mockito.when(this.userService.getSingleUserById(Mockito.any())).thenReturn(userDto);
+        this.mockMvc.perform(MockMvcRequestBuilders.get("/api/user/" + userId)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isOk());
+    }
+
+
     //    get All users
     @Test
     public void getAllUsers_Test() throws Exception {
@@ -124,22 +140,6 @@ public class UserControllerTest {
         Mockito.when(this.userService.getAllUsers()).thenReturn(userList);
 
         this.mockMvc.perform(MockMvcRequestBuilders.get("/api/users")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .accept(MediaType.APPLICATION_JSON))
-                .andDo(print())
-                .andExpect(status().isOk());
-    }
-
-//    get Single User
-
-    @Test
-    public void getSingleUser_Test() throws Exception {
-        Integer userId = 2;
-
-        UserDto userDto = this.mapper.map(user, UserDto.class);
-
-        Mockito.when(this.userService.getSingleUserById(Mockito.any())).thenReturn(userDto);
-        this.mockMvc.perform(MockMvcRequestBuilders.get("/api/user/" + userId)
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
