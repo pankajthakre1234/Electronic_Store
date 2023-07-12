@@ -100,6 +100,18 @@ public class ProductServiceTest {
         Assertions.assertEquals(product.getTitle(), updatedProduct.getTitle());
     }
 
+    //    delete Product
+    @Test
+    public void deleteProduct_Test() {
+        Integer productId = 6;
+        Mockito.when(this.repository.findById(Mockito.any())).thenReturn(of(product));
+
+        this.productService.delete(productId);
+
+        Mockito.verify(repository, Mockito.timeout(1)).delete(product);
+
+    }
+
     //    get single Product
     @Test
     public void getSingleProduct_Test() {
@@ -112,17 +124,6 @@ public class ProductServiceTest {
         Assertions.assertNotNull(productDto);
     }
 
-    //    delete Product
-    @Test
-    public void deleteProduct_Test() {
-        Integer productId = 6;
-        Mockito.when(this.repository.findById(Mockito.any())).thenReturn(of(product));
-
-        this.productService.delete(productId);
-
-        Mockito.verify(repository, Mockito.timeout(1)).delete(product);
-
-    }
 
     //    Get All Product
     @Test
@@ -171,19 +172,7 @@ public class ProductServiceTest {
         Assertions.assertEquals(3, dto.getContent().size());
     }
 
-    //    create With category
-    @Test
-    public void createWithCategoryProduct_Test()
-    {
-        Mockito.when(this.repository.save(Mockito.any())).thenReturn(product);
-        Mockito.when(this.categoryRepository.findById(Mockito.anyInt())).thenReturn(Optional.ofNullable(category));
-        ProductDto dto = this.mapper.map(product, ProductDto.class);
-        Assertions.assertNotNull(dto);
-        System.out.println(dto.getTitle());
-        Assertions.assertEquals("Iphone 13",dto.getTitle());
-    }
-
-//    get All Live products
+    //    get All Live products
     @Test
     public void getAllAliveProduct_Test()
     {
@@ -231,7 +220,8 @@ public class ProductServiceTest {
         Assertions.assertEquals(3,dto.getContent().size());
     }
 
-//    search Products
+
+    //    search Products
     @Test
     public void searchProduct_Test()
     {
@@ -280,4 +270,17 @@ public class ProductServiceTest {
         Assertions.assertEquals(3,searched.getContent().size());
         Assertions.assertNotNull(searched);
     }
+
+    //    create With category
+    @Test
+    public void createWithCategoryProduct_Test()
+    {
+        Mockito.when(this.repository.save(Mockito.any())).thenReturn(product);
+        Mockito.when(this.categoryRepository.findById(Mockito.anyInt())).thenReturn(Optional.ofNullable(category));
+        ProductDto dto = this.mapper.map(product, ProductDto.class);
+        Assertions.assertNotNull(dto);
+        System.out.println(dto.getTitle());
+        Assertions.assertEquals("Iphone 13",dto.getTitle());
+    }
+
 }
