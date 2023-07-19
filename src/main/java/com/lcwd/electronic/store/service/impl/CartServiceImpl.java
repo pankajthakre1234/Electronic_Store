@@ -18,6 +18,8 @@ import org.springframework.stereotype.Service;
 import java.util.Date;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.concurrent.atomic.AtomicReference;
+import java.util.stream.Collectors;
 
 @Service
 public class CartServiceImpl implements CartService {
@@ -54,15 +56,34 @@ public class CartServiceImpl implements CartService {
             cart = new Cart();
             cart.setCreatedAt(new Date());
         }
-        List<CartItem> itemList = cart.getItems();
 
-        CartItem item = CartItem.builder()
-                .quantity(quantity)
-                .totalPrice(quantity * product.getPrice())
-                .cart(cart)
-                .product(product)
-                .build();
-        cart.getItems().add(item);
+        AtomicReference<Boolean> updated=new AtomicReference<>(false);
+        List<CartItem> itemList = cart.getItems();
+        itemList.stream().map(item -> {
+
+            if(item.getProduct().getProductId().equals(productId))
+            {
+                item.setQuantity(quantity);
+                item.setTotalPrice(quantity*product.getDiscountedPrice());
+                updated.set(true);
+            }
+
+
+            return itemList;
+        }).collect(Collectors.toList());
+
+        cart.setItems(itemList);
+
+        if(!updated.get())
+        {
+            CartItem item = CartItem.builder()
+                    .quantity(quantity)
+                    .totalPrice(quantity * product.getPrice())
+                    .cart(cart)
+                    .product(product)
+                    .build();
+            cart.getItems().add(item);
+        }
 
         cart.setUser(user);
         Cart updatedCart = cartRepository.save(cart);
@@ -72,7 +93,9 @@ public class CartServiceImpl implements CartService {
     }
 
     @Override
-    public void removeItemFromCart(Integer userId, Integer cartItemId) {
+    public void removeItemFromCart(Integer userId, Integer cartItemId)
+    {
+
 
     }
 
