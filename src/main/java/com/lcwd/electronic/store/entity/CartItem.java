@@ -1,16 +1,14 @@
 package com.lcwd.electronic.store.entity;
 
 
-import lombok.Builder;
-import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 
 @Getter
 @Setter
-@Data
+@NoArgsConstructor
+@AllArgsConstructor
 @Builder
 @Entity
 @Table(name = "cart_item")
@@ -28,8 +26,9 @@ public class CartItem {
     private int quantity;
 
     @Column(name = "total_price")
-    private int totalPrice;
+    private double totalPrice;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "cart_Id")
     private  Cart cart;
 }

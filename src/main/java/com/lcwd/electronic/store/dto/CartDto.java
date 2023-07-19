@@ -1,7 +1,5 @@
 package com.lcwd.electronic.store.dto;
 
-import com.lcwd.electronic.store.entity.CartItem;
-import com.lcwd.electronic.store.entity.User;
 import lombok.*;
 
 import javax.persistence.*;
@@ -20,7 +18,7 @@ public class CartDto {
 
     private Date createdAt;
 
-    private User user;
+    private UserDto userDto;
 
-    private List<CartItem> itemList= new ArrayList<>();
+    private List<CartItemDto> items= new ArrayList<>();
 }

@@ -1,9 +1,7 @@
 package com.lcwd.electronic.store.entity;
 
-import lombok.Builder;
-import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
+import com.lcwd.electronic.store.dto.CartItemDto;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -12,7 +10,8 @@ import java.util.List;
 
 @Getter
 @Setter
-@Data
+@NoArgsConstructor
+@AllArgsConstructor
 @Builder
 @Entity
 @Table(name = "cart")
@@ -29,5 +28,5 @@ public class Cart {
     private User user;
 
     @OneToMany(mappedBy = "cart",cascade = CascadeType.ALL,fetch = FetchType.EAGER)
-    private List<CartItem> itemList= new ArrayList<>();
+    private List<CartItem> items= new ArrayList<>();
 }
