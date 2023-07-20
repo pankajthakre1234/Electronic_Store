@@ -27,4 +27,6 @@ public class AppConstant {
     public static final String SORT_BY_PRODUCT = "Title";
 
     public static final String PRODUCT_DELETE ="This Product are deleted Successfully";
+
+    public static final String CART_DELETED="This cart is deleted Successfully";
 }
