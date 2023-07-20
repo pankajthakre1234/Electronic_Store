@@ -14,4 +14,7 @@ public interface CartService {
 
 //    clear cart
     void clearCart(Integer userId);
+
+//    get cart by user
+    CartDto getCartByUser(Integer userId);
 }

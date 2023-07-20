@@ -120,4 +120,13 @@ public class CartServiceImpl implements CartService {
         Cart savedCart = this.cartRepository.save(cart);
 
     }
+
+    @Override
+    public CartDto getCartByUser(Integer userId)
+    {
+        User user = this.userRepository.findById(userId).orElseThrow(() -> new ResourceNotFoundException("User", "userId", userId));
+        Cart cart = this.cartRepository.findByUser(user).orElseThrow(() -> new ResourceNotFoundException("Cart", "user", userId));
+
+        return this.mapper.map(cart,CartDto.class);
+    }
 }
