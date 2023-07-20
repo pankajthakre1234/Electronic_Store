@@ -7,6 +7,7 @@ import com.lcwd.electronic.store.entity.Product;
 import com.lcwd.electronic.store.entity.User;
 import com.lcwd.electronic.store.exception.ResourceNotFoundException;
 import com.lcwd.electronic.store.helper.AddItemToCartRequest;
+import com.lcwd.electronic.store.repository.CartItemRepository;
 import com.lcwd.electronic.store.repository.CartRepository;
 import com.lcwd.electronic.store.repository.ProductRepository;
 import com.lcwd.electronic.store.repository.UserRepository;
@@ -29,6 +30,9 @@ public class CartServiceImpl implements CartService {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private CartItemRepository cartItemRepository;
 
     @Autowired
     private ProductRepository productRepository;
@@ -95,12 +99,14 @@ public class CartServiceImpl implements CartService {
     @Override
     public void removeItemFromCart(Integer userId, Integer cartItemId)
     {
-
+        CartItem cartItem = this.cartItemRepository.findById(cartItemId).orElseThrow(() -> new ResourceNotFoundException("CatItem", "catItemId", cartItemId));
+        this.cartItemRepository.delete(cartItem);
 
     }
 
     @Override
-    public void clearCart(Integer userId) {
+    public void clearCart(Integer userId)
+    {
 
     }
 }
