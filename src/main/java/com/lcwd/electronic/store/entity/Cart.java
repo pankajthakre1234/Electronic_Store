@@ -18,6 +18,7 @@ import java.util.List;
 public class Cart {
 
     @Id
+    @GeneratedValue
     private Integer cartId;
 
     @Column(name = "cart_added_date")
