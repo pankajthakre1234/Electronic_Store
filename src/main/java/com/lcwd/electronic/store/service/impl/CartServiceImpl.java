@@ -5,6 +5,7 @@ import com.lcwd.electronic.store.entity.Cart;
 import com.lcwd.electronic.store.entity.CartItem;
 import com.lcwd.electronic.store.entity.Product;
 import com.lcwd.electronic.store.entity.User;
+import com.lcwd.electronic.store.exception.BadApiRequest;
 import com.lcwd.electronic.store.exception.ResourceNotFoundException;
 import com.lcwd.electronic.store.helper.AddItemToCartRequest;
 import com.lcwd.electronic.store.repository.CartItemRepository;
@@ -45,6 +46,12 @@ public class CartServiceImpl implements CartService {
     {
         Integer productId = request.getProductId();
         int quantity = request.getQuantity();
+
+        if(quantity <=0)
+        {
+            throw new BadApiRequest("Requested Quantity is Not Valid...!",false);
+        }
+
         //  fetch product
         Product product = this.productRepository.findById(productId).orElseThrow(() -> new ResourceNotFoundException("Product", "productId", productId));
 
@@ -107,6 +114,10 @@ public class CartServiceImpl implements CartService {
     @Override
     public void clearCart(Integer userId)
     {
+        User user = this.userRepository.findById(userId).orElseThrow(() -> new ResourceNotFoundException("User", "userId", userId));
+        Cart cart = this.cartRepository.findByUser(user).orElseThrow(() -> new ResourceNotFoundException("Cart", "user", userId));
+        cart.getItems().clear();
+        Cart savedCart = this.cartRepository.save(cart);
 
     }
 }
