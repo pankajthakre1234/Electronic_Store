@@ -21,9 +21,14 @@ public class CartController {
 
     Logger logger = LoggerFactory.getLogger(CartController.class);
 
-
+    /**
+     * @Auther Pankaj
+     * @apiNote This Api is use For The Added Item Details to cart
+     * @param userId
+     * @param request
+     * @return
+     */
 //    create
-
     @PostMapping("/{userId}")
     public ResponseEntity<CartDto> addedItemToCart(@PathVariable Integer userId, @RequestBody AddItemToCartRequest request)
     {
@@ -35,6 +40,12 @@ public class CartController {
         return new ResponseEntity<>(cartDto, HttpStatus.CREATED);
     }
 
+    /**
+     * @apiNote This Api is use For The remove Item details From cart
+     * @param userId
+     * @param cartItemId
+     * @return
+     */
 //    remove items
     @DeleteMapping("/{userId}/item/{cartItemId}")
     public ResponseEntity<ApiResponse> removeItemFromCart(
@@ -48,6 +59,11 @@ public class CartController {
         return new ResponseEntity<>(new ApiResponse(AppConstant.CART_DELETED,true),HttpStatus.OK);
     }
 
+    /**
+     * @apiNote This Api is use For the clear cart details
+     * @param userId
+     * @return
+     */
 //    clear cart
     @DeleteMapping("/{userId}")
     public ResponseEntity<ApiResponse> clearCart(@PathVariable Integer userId)
@@ -60,6 +76,12 @@ public class CartController {
         return new ResponseEntity<>(new ApiResponse(AppConstant.CART_DELETED,true),HttpStatus.OK);
     }
 
+
+    /**
+     * @apiNote This Api is use For The get Cart Details By User
+     * @param userId
+     * @return
+     */
 //    get cart by User
     @GetMapping("/user/{userId}")
     public ResponseEntity<CartDto> getCartByUser(@PathVariable Integer userId)
