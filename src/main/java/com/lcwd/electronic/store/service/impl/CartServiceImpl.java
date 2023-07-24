@@ -45,6 +45,13 @@ public class CartServiceImpl implements CartService {
 
     Logger logger = LoggerFactory.getLogger(CartServiceImpl.class);
 
+    /**
+     * @Auther Pankaj
+     * @apiNote This Method is Implementing for the Added Item to cart Details
+     * @param userId
+     * @param request
+     * @return
+     */
     @Override
     public CartDto addedItemToCart(Integer userId, AddItemToCartRequest request)
     {
@@ -108,6 +115,11 @@ public class CartServiceImpl implements CartService {
 
     }
 
+    /**
+     * @apiNote This Method is Implementing For the Remove Item from cart Details
+     * @param userId
+     * @param cartItemId
+     */
     @Override
     public void removeItemFromCart(Integer userId, Integer cartItemId)
     {
@@ -120,6 +132,10 @@ public class CartServiceImpl implements CartService {
 
     }
 
+    /**
+     * @apiNote This Method is Implementing for the Clear cart Details
+     * @param userId
+     */
     @Override
     public void clearCart(Integer userId)
     {
@@ -134,6 +150,11 @@ public class CartServiceImpl implements CartService {
 
     }
 
+    /**
+     * @apiNote This Method is Implementing for the Get Cart By User Details
+     * @param userId
+     * @return
+     */
     @Override
     public CartDto getCartByUser(Integer userId)
     {
