@@ -5,9 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.Entity;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Setter
 @Getter
@@ -17,7 +15,8 @@ import javax.persistence.Table;
 @Table(name = "order_items")
 public class OrderItem {
 
-
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int OrderItemId;
 
     private int quantity;
@@ -25,5 +24,10 @@ public class OrderItem {
     private int totalPrice;
 
     @OneToOne
+    @JoinColumn(name = "product_id")
     private Product product;
+
+    @ManyToOne
+    @JoinColumn(name = "order_id")
+    private Order order;
 }
