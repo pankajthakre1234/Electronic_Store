@@ -20,9 +20,9 @@ public class OrderDto {
 
     private Integer orderId;
 
-    private String orderStatus;
+    private String orderStatus = "PENDING";
 
-    private String paymentStatus;
+    private String paymentStatus= "NOT-PAID";
 
     private int orderAmount;
 
