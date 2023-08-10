@@ -1,7 +1,7 @@
 package com.lcwd.electronic.store.service;
 
 import com.lcwd.electronic.store.dto.OrderDto;
-import com.lcwd.electronic.store.entity.Order;
+import com.lcwd.electronic.store.helper.CreateOrderRequest;
 import com.lcwd.electronic.store.helper.PageableResponse;
 
 import java.util.List;
@@ -9,10 +9,10 @@ import java.util.List;
 public interface OrderService {
 
 //    get order
-    Order createOrder(OrderDto orderDto,Integer userId);
+    OrderDto createOrder(CreateOrderRequest orderDto);
 
 //    remove order
-    void removeOrder(Integer userId);
+    void removeOrder(Integer orderId);
 
 //    get order by User
     List<OrderDto> getOrderOfUser(Integer userId);

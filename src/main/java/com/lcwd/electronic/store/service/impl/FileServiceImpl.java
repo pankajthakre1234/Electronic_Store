@@ -1,6 +1,6 @@
 package com.lcwd.electronic.store.service.impl;
 
-import com.lcwd.electronic.store.exception.BadApiRequest;
+import com.lcwd.electronic.store.exception.BadApiRequestException;
 import com.lcwd.electronic.store.service.FileService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -49,7 +49,7 @@ public class FileServiceImpl implements FileService {
             logger.info("Completed dao call for the Upload User Image details");
             return fileNameWithExtension;
         } else {
-            throw new BadApiRequest("File With This" + extension + "Not Allowed !!", true);
+            throw new BadApiRequestException("File With This" + extension + "Not Allowed !!", true);
         }
 
     }

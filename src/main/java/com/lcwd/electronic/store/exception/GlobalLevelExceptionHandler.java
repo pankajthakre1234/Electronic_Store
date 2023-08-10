@@ -39,8 +39,8 @@ public class GlobalLevelExceptionHandler {
         return new ResponseEntity<Map<String, String>>(map, HttpStatus.BAD_REQUEST);
     }
 
-    @ExceptionHandler(BadApiRequest.class)
-    public ResponseEntity<BadApiRequest> BadApiRequestHAndler(BadApiRequest ex) {
+    @ExceptionHandler(BadApiRequestException.class)
+    public ResponseEntity<BadApiRequestException> BadApiRequestHAndler(BadApiRequestException ex) {
         String message = ex.getMessage();
         ApiResponse apiResponse = new ApiResponse(message, false);
 

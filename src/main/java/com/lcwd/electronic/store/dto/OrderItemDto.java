@@ -24,5 +24,5 @@ public class OrderItemDto {
 
     private Product product;
 
-    private Order order;
+    private OrderDto orderDto;
 }

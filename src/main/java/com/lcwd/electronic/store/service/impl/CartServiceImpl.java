@@ -5,7 +5,7 @@ import com.lcwd.electronic.store.entity.Cart;
 import com.lcwd.electronic.store.entity.CartItem;
 import com.lcwd.electronic.store.entity.Product;
 import com.lcwd.electronic.store.entity.User;
-import com.lcwd.electronic.store.exception.BadApiRequest;
+import com.lcwd.electronic.store.exception.BadApiRequestException;
 import com.lcwd.electronic.store.exception.ResourceNotFoundException;
 import com.lcwd.electronic.store.helper.AddItemToCartRequest;
 import com.lcwd.electronic.store.repository.CartItemRepository;
@@ -61,7 +61,7 @@ public class CartServiceImpl implements CartService {
 
         if(quantity <=0)
         {
-            throw new BadApiRequest("Requested Quantity is Not Valid...!",false);
+            throw new BadApiRequestException("Requested Quantity is Not Valid...!",false);
         }
 
         //  fetch product
