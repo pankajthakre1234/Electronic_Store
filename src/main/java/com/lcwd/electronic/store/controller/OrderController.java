@@ -12,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -22,7 +23,7 @@ public class OrderController {
     private OrderService orderService;
 
     @PostMapping
-    public ResponseEntity<OrderDto> createOrders(CreateOrderRequest orderRequest)
+    public ResponseEntity<OrderDto> createOrders( @Valid CreateOrderRequest orderRequest)
     {
         OrderDto orderDto = this.orderService.createOrder(orderRequest);
 
