@@ -29,4 +29,6 @@ public class AppConstant {
     public static final String PRODUCT_DELETE ="This Product are deleted Successfully";
 
     public static final String CART_DELETED="This cart is deleted Successfully";
+
+    public static final String ORDER_DELETE ="Order delete Successfully";
 }
